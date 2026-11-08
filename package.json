@@ -4,6 +4,19 @@
   "description": "Restaurant store operations expert for DeepSeek Harness: bundled skills plus a single-file local-data dashboard.",
   "type": "module",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/igdwei/dsh-store-ops-expert.git"
+  },
+  "homepage": "https://github.com/igdwei/dsh-store-ops-expert#readme",
+  "bugs": {
+    "url": "https://github.com/igdwei/dsh-store-ops-expert/issues"
+  },
+  "keywords": ["deepseek", "dsh", "plugin", "restaurant", "analytics", "dashboard"],
+  "author": "igdwei",
+  "publishConfig": {
+    "access": "public"
+  },
   "exports": {
     ".": "./index.js",
     "./client": "./client.js",
