@@ -1,0 +1,27 @@
+{
+  "name": "dsh-store-ops-expert",
+  "version": "0.1.1",
+  "description": "Restaurant store operations expert for DeepSeek Harness: bundled skills plus a single-file local-data dashboard.",
+  "type": "module",
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
+  "files": ["index.js", "client.js", "cordis.patch.yml", "assets/**", "screenshots.json", "icon.svg", "README.md", "README.zh.md", "LICENSE"],
+  "dsh": {
+    "bundle": { "patch": "./cordis.patch.yml" },
+    "client": {
+      "platform": "web",
+      "immediately": true,
+      "inject": ["@deepseek-ai/dsh-client-ui-conversation"]
+    }
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "*",
+    "@deepseek-ai/dsh-skill": "*"
+  },
+  "license": "MIT"
+}
