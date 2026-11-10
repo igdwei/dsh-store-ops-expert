@@ -1,6 +1,6 @@
 {
   "name": "dsh-store-ops-expert",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Restaurant store operations expert for DeepSeek Harness: bundled skills plus a single-file local-data dashboard.",
   "type": "module",
   "main": "index.js",
@@ -12,7 +12,14 @@
   "bugs": {
     "url": "https://github.com/igdwei/dsh-store-ops-expert/issues"
   },
-  "keywords": ["deepseek", "dsh", "plugin", "restaurant", "analytics", "dashboard"],
+  "keywords": [
+    "deepseek",
+    "dsh",
+    "plugin",
+    "restaurant",
+    "analytics",
+    "dashboard"
+  ],
   "author": "igdwei",
   "publishConfig": {
     "access": "public"
@@ -23,13 +30,27 @@
     "./cordis.patch.yml": "./cordis.patch.yml",
     "./package.json": "./package.json"
   },
-  "files": ["index.js", "client.js", "cordis.patch.yml", "assets/**", "screenshots.json", "icon.svg", "README.md", "README.zh.md", "LICENSE"],
+  "files": [
+    "index.js",
+    "client.js",
+    "cordis.patch.yml",
+    "assets/**",
+    "screenshots.json",
+    "icon.svg",
+    "README.md",
+    "README.zh.md",
+    "LICENSE"
+  ],
   "dsh": {
-    "bundle": { "patch": "./cordis.patch.yml" },
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
     "client": {
       "platform": "web",
       "immediately": true,
-      "inject": ["@deepseek-ai/dsh-client-ui-conversation"]
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-conversation"
+      ]
     }
   },
   "peerDependencies": {

@@ -2,11 +2,12 @@
 
 Turns a POS export into conclusions a store manager can act on.
 
-DSH port of the WorkBuddy expert `canyin-storeops-analyst`:
+DSH port of the WorkBuddy expert `canyin-storeops-analyst` (currently **v2.6.0 / 2026-11-09**):
 
 - **Two skills**: `store-ops-analyst` (judgement and boundaries) and `store-ops-workbench` (deliver and explain the dashboard);
 - **One entry**: a 「经营看板」 button next to the composer opens the single-file dashboard;
-- **Local data**: the dashboard is a zero-dependency HTML file; imported Excel never leaves the browser.
+- **Local data**: the dashboard is a zero-dependency HTML file; imported Excel never leaves the browser;
+- **Import modes**: the first import replaces the sample data; later imports merge by date, newer files win on overlap.
 
 ## Install
 

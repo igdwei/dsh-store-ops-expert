@@ -3,179 +3,224 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>门店经营助手 示例版 v2.4.3 · 构建 2026-11-07</title>
-<meta name="app-version" content="v2.4.3 · 构建 2026-11-07">
+<title>门店经营助手 示例版 v2.6.0 · 构建 2026-11-09</title>
+<meta name="app-version" content="v2.6.0 · 构建 2026-11-09">
 <meta name="app-edition" content="demo">
 <style>
 :root{
-  --bg:#F7F4F0; --panel:#fff; --ink:#241C17; --ink2:#6E625A; --ink3:#A2958C;
-  --line:#EDE6DF; --line2:#F5EFE9;
-  --brand:#E2552B; --brand-soft:#FDEEE8; --brand-deep:#B8401C;
-  --pos:#1B7F63; --pos-soft:#E7F4EF; --neg:#C8453A; --neg-soft:#FBEAE7;
-  --warn:#A9701A; --warn-soft:#FBF2E1;
-  --side:#2A1D18; --side2:#3E2B22;
-  --r:16px; --r2:12px;
-  --sh:0 1px 2px rgba(60,40,25,.05), 0 8px 24px -12px rgba(60,40,25,.18);
+  /* design-r2：深蓝框架 + 六色语义 KPI + 浅灰蓝高密度内容区 */
+  --nav:#0B1B3A; --nav2:#122347;
+  --bg:#F0F4FA; --panel:#fff; --inset:#F4F7FC;
+  --ink:#16233B; --ink2:#5C6B85; --ink3:#9AA7BD;
+  --line:#E6ECF5; --line2:#F1F5FB;
+  --brand:#2F6BFF; --brand-soft:#EAF0FF; --brand-deep:#1E4FD6;
+  --accent:#E2552B; --accent-soft:#FDEEE8;
+  --pos:#17A673; --pos-soft:#E5F7F0; --neg:#E5484D; --neg-soft:#FDECEF;
+  --warn:#F58700; --warn-soft:#FFF3E3;
+  --alert-bg:#FDECF0;
+  /* KPI 语义色相：紫实收 / 绿订单 / 橙单均 / 蓝到手率 / 粉会员 / 青退款 */
+  --k1:#7C4DFF; --k2:#0A8249; --k3:#B85E00; --k4:#1E5FE0; --k5:#C41657; --k6:#0A7C77;
+  /* 日历热力五档 */
+  --heat-n2:#FBD5D8; --heat-n2i:#C7363B;
+  --heat-n1:#FDECEF; --heat-n1i:#E5484D;
+  --heat-z:#F4F7FC;  --heat-zi:#6B7A94;
+  --heat-p1:#E5F7F0; --heat-p1i:#17A673;
+  --heat-p2:#BCEBD6; --heat-p2i:#0A7A45;
+  --r:10px; --r2:10px; --r3:8px;
+  --sh:0 1px 2px rgba(16,35,59,.04);
+  --sh-h:0 1px 3px rgba(16,35,59,.09);
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;padding:0}
-body{background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Segoe UI",sans-serif;font-size:14px;line-height:1.6;display:flex;min-height:100vh}
+body{background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","HarmonyOS Sans SC","Microsoft YaHei","Segoe UI",sans-serif;font-size:13px;line-height:1.55;display:flex;min-height:100vh;-webkit-font-smoothing:antialiased}
 .num{font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
 button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit}
-input,select{font-family:inherit;font-size:13px;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:9px;padding:7px 9px;outline:none;min-width:0;max-width:100%}
-input:focus,select:focus{border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-soft)}
+input,select{font-family:inherit;font-size:12px;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:var(--r3);padding:7px 10px;outline:none;min-width:0;max-width:100%;transition:border-color .12s,box-shadow .12s}
+input:focus,select:focus{border-color:var(--brand);box-shadow:0 0 0 3px rgba(47,107,255,.16)}
+:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
 table{width:100%;border-collapse:collapse}
-th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line2);font-size:13px}
-th{color:var(--ink3);font-weight:500;font-size:12px;white-space:nowrap}
+th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line2);font-size:12px}
+th{color:var(--ink3);font-weight:600;font-size:11px;white-space:nowrap}
 td.r,th.r{text-align:right}
 tbody tr:last-child td{border-bottom:0}
-tbody tr:hover{background:#FCFAF8}
+tbody tr:hover{background:#F7F9FD}
 
-/* ---------- sidebar ---------- */
-.side{width:196px;flex:0 0 196px;background:var(--side);color:#EBDDD3;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;padding:20px 14px 16px;z-index:40}
-.brand{padding:0 10px 18px}
-.brand b{display:block;font-size:16px;font-weight:600;letter-spacing:.5px;color:#fff}
-.brand span{display:block;font-size:11px;color:#9C8578;margin-top:4px}
-nav{display:flex;flex-direction:column;gap:3px;flex:1}
-nav button{display:flex;align-items:center;gap:10px;padding:10px 11px;border-radius:10px;font-size:13.5px;color:#C6B3A7;transition:.15s;text-align:left;width:100%}
-nav button svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;opacity:.85;flex:0 0 17px}
-nav button:hover{background:rgba(255,255,255,.06);color:#F3E6DC}
-nav button.on{background:var(--brand);color:#fff;box-shadow:0 6px 16px -8px rgba(226,85,43,.9)}
+/* ---------- 侧栏：深海军蓝 176px，亮蓝选中胶囊 ---------- */
+.side{width:176px;flex:0 0 176px;background:var(--nav);color:#A9B8D6;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;padding:16px 10px 12px;z-index:40;border-right:1px solid rgba(255,255,255,.08)}
+.brand{padding:0 8px 18px;display:flex;align-items:center;gap:8px}
+.brand i{width:26px;height:26px;border-radius:8px;background:var(--brand);display:grid;place-items:center;flex:0 0 26px}
+.brand i svg{width:15px;height:15px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.brand b{display:block;font-size:13px;font-weight:600;letter-spacing:.2px;color:#fff}
+.brand span{display:block;font-size:11px;color:#8A9CC0;margin-top:2px}
+nav{display:flex;flex-direction:column;gap:2px;flex:1}
+nav button{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:var(--r3);font-size:12px;color:#A9B8D6;transition:background .12s,color .12s;text-align:left;width:100%}
+nav button svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;opacity:.9;flex:0 0 17px}
+nav button:hover{background:var(--nav2);color:#fff}
+nav button.on{background:var(--brand);color:#fff;box-shadow:none}
+nav button.on:hover{background:var(--brand-deep)}
 nav button.on svg{opacity:1}
-nav button .cnt{margin-left:auto;font-size:11px;background:rgba(255,255,255,.16);border-radius:20px;padding:1px 7px;font-variant-numeric:tabular-nums}
-nav button.on .cnt{background:rgba(0,0,0,.18)}
-.side-foot{margin-top:12px;padding:12px 11px 0;border-top:1px solid rgba(255,255,255,.1);font-size:11px;color:#8B7568;line-height:1.7}
-.side-foot b{color:#C9B4A6;font-weight:500}
+nav button .cnt{margin-left:auto;font-size:11px;background:rgba(255,255,255,.12);color:#C9D6EA;border-radius:999px;padding:1px 7px;font-variant-numeric:tabular-nums}
+nav button.on .cnt{background:rgba(255,255,255,.18);color:#fff}
+.side-foot{margin-top:12px;padding:12px 8px 0;border-top:1px solid rgba(255,255,255,.1);font-size:11px;color:#8A9CC0;line-height:1.7}
+.side-foot b{color:#C9D6EA;font-weight:500}
+.side-foot span{color:#6FDDB0!important}
 
 /* ---------- main ---------- */
 main{flex:1;min-width:0}
-.top{position:sticky;top:0;z-index:30;background:rgba(247,244,240,.92);backdrop-filter:saturate(180%) blur(10px);border-bottom:1px solid var(--line);padding:12px 26px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-.top h1{font-size:16px;margin:0;font-weight:600;letter-spacing:.2px}
-.top .sub{font-size:12px;color:var(--ink3);margin-left:2px}
+.top{position:sticky;top:0;z-index:30;background:var(--nav);border-bottom:1px solid rgba(255,255,255,.08)}
+/* 顶栏内容与 .content 同宽同边距：宽屏下两者左右边缘必须对齐 */
+.topin{max-width:1720px;margin:0 auto;padding:10px 16px;min-height:56px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.top h1{font-size:13px;margin:0;font-weight:600;letter-spacing:.2px;color:#fff}
+.top .sub{font-size:11px;color:#8A9CC0;margin-left:2px}
 .sp{flex:1}
-.seg{display:flex;background:#EFE9E3;border-radius:10px;padding:3px;gap:2px}
-.seg button{padding:5px 11px;border-radius:7px;font-size:12.5px;color:var(--ink2)}
-.seg button.on{background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(60,40,25,.12);font-weight:500}
-.content{padding:20px 26px 90px;max-width:1860px}
+.seg{display:flex;background:rgba(255,255,255,.1);border-radius:var(--r3);padding:2px;gap:2px}
+.seg button{padding:4px 10px;border-radius:6px;font-size:11px;color:#A9B8D6;transition:background .12s,color .12s,box-shadow .12s}
+.seg button.on{background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12);font-weight:600}
+.content{padding:16px 16px 96px;max-width:1720px;margin:0 auto}
+.content.vf{animation:vf .18s cubic-bezier(.2,.7,.3,1)}
+@keyframes vf{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+
+/* 顶栏控件：统一 34 高胶囊，视觉上比内容轻一档 */
+.top .btn{height:30px;border-radius:999px;padding:0 13px;font-size:11px}
+.top select{height:30px;border-radius:999px;padding:0 26px 0 12px;font-size:11px;color:#fff;background-color:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);max-width:190px;
+  appearance:none;background-image:url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 4.5 6 8l3.5-3.5' fill='none' stroke='%23C9D6EA' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 10px center;background-size:12px}
+.top select:hover{border-color:rgba(255,255,255,.38)}
+.top select option{color:var(--ink);background:#fff}
+.top .btn.ghost{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);color:#fff}
+.top .btn.ghost:hover{background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.34);color:#fff}
+#dateWrap input{height:30px;border-radius:var(--r3);font-size:11px;color:#fff;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18)}
+#dateWrap span{color:#8A9CC0!important}
+input[type=date]::-webkit-calendar-picker-indicator{filter:invert(1);opacity:.7}
+.top .seg{height:30px;align-items:center}
 
 .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh)}
-.pad{padding:18px 20px}
-.grid{display:grid;gap:14px}
+.pad{padding:14px}
+.grid{display:grid;gap:12px}
 .grid > *{min-width:0}
 .g2{grid-template-columns:1fr 1fr}
 .g2.wa{grid-template-columns:minmax(0,1.45fr) minmax(0,1fr)}
 .g2.wb{grid-template-columns:minmax(0,1.25fr) minmax(0,1fr)}
 .g3{grid-template-columns:repeat(3,1fr)}
 .g4{grid-template-columns:repeat(4,1fr)}
-.sec{display:flex;align-items:baseline;gap:10px;margin:26px 0 12px}
-.sec h2{font-size:14px;margin:0;font-weight:600;letter-spacing:.2px}
-.sec p{margin:0;font-size:12px;color:var(--ink3)}
-.mt{margin-top:14px}
+.sec{display:flex;align-items:baseline;gap:8px;margin:20px 0 10px}
+.sec h2{font-size:13px;margin:0;font-weight:600;letter-spacing:.1px}
+.sec p{margin:0;font-size:11px;color:var(--ink3)}
+.mt{margin-top:12px}
 
-/* ---------- hero ---------- */
-.hero{background:radial-gradient(120% 140% at 0% 0%,#452B1F 0%,#2A1D18 55%,#241A15 100%);border-radius:20px;padding:24px 26px;color:#fff;display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.12fr);gap:26px;position:relative;overflow:hidden}
-.hero:after{content:"";position:absolute;right:-60px;top:-90px;width:280px;height:280px;background:radial-gradient(circle,rgba(226,85,43,.34),transparent 68%);pointer-events:none}
-.hero .kicker{font-size:11.5px;color:#B39C8D;letter-spacing:.6px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.hero .big{font-size:44px;font-weight:600;letter-spacing:-1px;line-height:1.1;margin:10px 0 6px;font-variant-numeric:tabular-nums}
-.hero .big small{font-size:15px;font-weight:400;color:#C2AC9D;letter-spacing:0;margin-left:8px}
-.hero .facts{display:flex;gap:20px;flex-wrap:wrap;font-size:12.5px;color:#C6B2A3}
-.hero .facts b{color:#fff;font-weight:600;font-variant-numeric:tabular-nums}
-.verdict{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.11);border-radius:14px;padding:16px 17px;position:relative;z-index:1;display:flex;flex-direction:column;gap:9px}
+/* ---------- hero：全站唯一深色面 ---------- */
+.hero{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;color:var(--ink);display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.12fr);gap:20px;align-items:center;position:relative;overflow:hidden;box-shadow:var(--sh)}
+.hero:after{display:none}
+.hero .kicker{font-size:11px;color:var(--ink3);letter-spacing:.02em;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.hero .big{font-size:30px;font-weight:700;color:var(--k1);letter-spacing:-.5px;line-height:1.15;margin:8px 0 6px;font-variant-numeric:tabular-nums}
+.hero .big small{font-size:12px;font-weight:500;color:var(--ink3);letter-spacing:0;margin-left:8px}
+.hero .facts{display:flex;gap:16px;flex-wrap:wrap;font-size:11.5px;color:var(--ink2)}
+.hero .facts b{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums}
+.verdict{background:var(--inset);border:1px solid var(--line);border-radius:var(--r3);padding:12px 14px;position:relative;z-index:1;display:flex;flex-direction:column;gap:7px}
 .verdict .tagrow{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.vtag{font-size:11px;padding:3px 9px;border-radius:20px;font-weight:500}
-.vtag.bad{background:rgba(226,85,43,.2);color:#FFB49B;border:1px solid rgba(226,85,43,.35)}
-.vtag.good{background:rgba(45,160,120,.18);color:#8FE0C2;border:1px solid rgba(45,160,120,.35)}
-.vtag.flat{background:rgba(255,255,255,.12);color:#D5C3B6;border:1px solid rgba(255,255,255,.16)}
-.verdict p{margin:0;font-size:13px;color:#E4D4C8;line-height:1.75}
-.verdict p b{color:#fff;font-weight:600}
-.verdict .why{font-size:12px;color:#A89180;border-top:1px dashed rgba(255,255,255,.13);padding-top:9px;margin-top:1px}
-.verdict .why b{color:#D9C6B7}
-.verdict .goalset{font-size:11.5px;color:#A89180;border-top:1px dashed rgba(255,255,255,.13);padding-top:8px;margin-top:8px}
-.verdict .goalset a{color:#FFB49B;text-decoration:none;white-space:nowrap}
+.vtag{font-size:11px;padding:2px 8px;border-radius:999px;font-weight:600}
+.vtag.bad{background:var(--neg-soft);color:var(--neg)}
+.vtag.good{background:var(--pos-soft);color:var(--pos)}
+.vtag.flat{background:#fff;color:var(--ink2);border:1px solid var(--line)}
+.verdict p{margin:0;font-size:12px;color:var(--ink2);line-height:1.65;max-width:620px}
+.verdict p b{color:var(--ink);font-weight:600}
+.verdict .why{font-size:11.5px;color:var(--ink3);border-top:1px dashed var(--line);padding-top:8px;margin-top:1px}
+.verdict .why b{color:var(--ink2)}
+.verdict .goalset{font-size:11px;color:var(--ink3);border-top:1px dashed var(--line);padding-top:7px;margin-top:6px}
+.verdict .goalset a{color:var(--brand);text-decoration:none;white-space:nowrap}
 .verdict .goalset a:hover{text-decoration:underline}
-.verdict .holnote{font-size:11.5px;line-height:1.7;color:#B8A191;background:rgba(255,255,255,.05);border-left:2px solid rgba(255,180,155,.55);border-radius:0 8px 8px 0;padding:8px 10px}
-.verdict .holnote b{color:#F0DCCE;font-weight:600}
-.verdict .holnote a{color:#FFB49B;text-decoration:none;white-space:nowrap}
+.verdict .holnote{font-size:11px;line-height:1.65;color:var(--ink2);background:#fff;border-left:2px solid var(--warn);border-radius:0 8px 8px 0;padding:8px 10px}
+.verdict .holnote b{color:var(--ink);font-weight:600}
+.verdict .holnote a{color:var(--brand);text-decoration:none;white-space:nowrap}
 .verdict .holnote a:hover{text-decoration:underline}
 
 /* ---------- kpi ---------- */
-.kpi{background:#fff;border:1px solid var(--line);border-radius:var(--r2);padding:13px 15px;box-shadow:var(--sh);position:relative;overflow:hidden;min-width:0}
-.kpi .lab{font-size:11.5px;color:var(--ink3);display:flex;align-items:center;gap:5px}
-.kpi .val{font-size:22px;font-weight:600;letter-spacing:-.4px;margin:3px 0 1px;font-variant-numeric:tabular-nums}
-.kpi .sub{font-size:11.5px;color:var(--ink3);display:flex;align-items:center;gap:6px;flex-wrap:wrap;row-gap:2px}
-.dlt{font-size:11.5px;font-weight:600;font-variant-numeric:tabular-nums}
-.dlt.up{color:var(--pos)} .dlt.dn{color:var(--neg)} .dlt.na{color:var(--ink3);font-weight:400}
+.kpi{background:var(--kc,var(--brand));border:0;border-radius:var(--r);padding:10px 12px 26px;position:relative;overflow:hidden;min-width:0;min-height:108px;display:flex;flex-direction:column;color:#fff;box-shadow:var(--sh);transition:filter .12s}
+.kpi:hover{filter:brightness(1.06)}
+.kpi .lab{font-size:11px;color:rgba(255,255,255,.9);font-weight:600;letter-spacing:.02em;display:flex;align-items:center;gap:5px;position:relative;z-index:1}
+.kpi .val{font-size:21px;font-weight:700;color:#fff;letter-spacing:-.3px;margin:6px 0 4px;font-variant-numeric:tabular-nums;line-height:1.2;position:relative;z-index:1}
+.kpi .sub{font-size:11px;color:rgba(255,255,255,.9);display:flex;align-items:center;gap:6px;flex-wrap:nowrap;overflow:hidden;margin-top:auto;position:relative;z-index:1}
+.kpi .sub > span:last-child{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;flex:1}
+.kpi .lab span[title]{opacity:.75}
+.kpi .kicon{position:absolute;top:10px;right:12px;width:24px;height:24px;opacity:.85;z-index:1;color:#fff}
+.kpi .spark{position:absolute;left:0;right:0;bottom:0;width:100%;height:24px;z-index:0;opacity:.8}
+.dlt{font-size:11px;font-weight:600;font-variant-numeric:tabular-nums;padding:1px 7px;border-radius:999px}
+.dlt.up{color:var(--pos);background:var(--pos-soft)}
+.dlt.dn{color:var(--neg);background:var(--neg-soft)}
+.dlt.na{color:var(--ink3);font-weight:400;background:var(--inset)}
+.kpi .dlt,.kpi .dlt.up,.kpi .dlt.dn,.kpi .dlt.na{color:#fff;background:transparent;padding:0;font-weight:700;flex:0 0 auto}
 
 /* ---------- calendar ---------- */
 .cal{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;font-size:11px}
 .cal .wd{color:var(--ink3);text-align:center;padding-bottom:2px;font-size:10.5px}
-.cal .cell{border-radius:8px;padding:6px 6px 5px;min-height:52px;border:1px solid transparent;cursor:pointer;transition:.12s;position:relative}
-.cal .cell:hover{transform:translateY(-1px);border-color:var(--brand);box-shadow:0 4px 12px -6px rgba(226,85,43,.55)}
+.cal .cell{border-radius:8px;padding:7px 6px 6px;min-height:52px;border:1px solid transparent;cursor:pointer;transition:transform .12s,box-shadow .12s,border-color .12s;position:relative}
+.cal .cell:hover{transform:translateY(-1px);border-color:var(--brand);box-shadow:0 4px 12px -6px rgba(47,107,255,.45)}
 .cal .cell .d{font-size:10.5px;opacity:.62;font-variant-numeric:tabular-nums}
 .cal .cell .v{font-size:11.5px;font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:-.2px}
-.cal .cell.holv{background:repeating-linear-gradient(135deg,#EFE8E0 0 6px,#F7F1EA 6px 12px)!important;border:1px dashed #D3C4B5;color:#7A6C5F!important}
-.cal .cell .hb{position:absolute;top:3px;right:4px;font-size:9px;line-height:1;padding:1px 3px;border-radius:3px;background:#E4D6C8;color:#7A6C5F;font-style:normal}
+.cal .cell.holv{background:repeating-linear-gradient(135deg,#F4F7FC 0 6px,#F4F7FC 6px 12px)!important;border:1px dashed #C9D5EA;color:#6B7A73!important}
+.cal .cell .hb{position:absolute;top:3px;right:4px;font-size:9px;line-height:1;padding:1px 3px;border-radius:3px;background:#E6ECF5;color:#6B7A94;font-style:normal}
 .cal .empty{border:0;cursor:default}
 .cal .empty:hover{transform:none;box-shadow:none;border:0}
 .cal-legend{display:flex;gap:12px;align-items:center;font-size:11px;color:var(--ink3);margin-top:11px;flex-wrap:wrap}
 .lgdot{display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:4px;vertical-align:-1px}
 
 /* ---------- todo rows ---------- */
-.todo{display:flex;align-items:center;gap:12px;padding:13px 16px;border-bottom:1px solid var(--line2)}
+.todo{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--line2)}
 .todo:last-child{border-bottom:0}
-.todo .ic{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;flex:0 0 30px}
+.todo.risk{background:var(--alert-bg)}
+.todo .ic{width:30px;height:30px;border-radius:var(--r3);display:grid;place-items:center;flex:0 0 30px}
 .todo .ic svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .todo .body{flex:1;min-width:0}
-.todo .t{font-size:13.5px;font-weight:500;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.todo .t{font-size:12.5px;font-weight:600;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
 .todo .m{font-size:11.5px;color:var(--ink3);margin-top:1px}
 .todo .amt{font-size:14px;font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
-.chip{font-size:10.5px;padding:1px 7px;border-radius:20px;font-weight:500;white-space:nowrap}
+.chip{font-size:11px;padding:2px 8px;border-radius:999px;font-weight:600;white-space:nowrap;line-height:1.5;height:20px;display:inline-flex;align-items:center}
 .chip.red{background:var(--neg-soft);color:var(--neg)}
 .chip.green{background:var(--pos-soft);color:var(--pos)}
 .chip.amber{background:var(--warn-soft);color:var(--warn)}
-.chip.gray{background:#F2EEE9;color:var(--ink2)}
-.chip.blue{background:#EAF0FB;color:#3560A8}
-.btn{display:inline-flex;align-items:center;gap:5px;padding:6px 12px;border-radius:9px;font-size:12.5px;font-weight:500;background:var(--brand);color:#fff;transition:.15s;white-space:nowrap}
+.chip.gray{background:var(--inset);color:var(--ink2)}
+.chip.blue{background:#EAF0FF;color:#2F6BFF}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:5px;height:32px;padding:0 12px;border-radius:var(--r3);font-size:12px;font-weight:600;background:var(--brand);color:#fff;transition:background .12s,box-shadow .12s,border-color .12s;white-space:nowrap}
 .btn:hover{background:var(--brand-deep)}
 .btn.ghost{background:#fff;border:1px solid var(--line);color:var(--ink2)}
-.btn.ghost:hover{border-color:var(--brand);color:var(--brand)}
-.btn.sm{padding:4px 10px;font-size:12px}
+.btn.ghost:hover{border-color:var(--brand);color:var(--brand);background:var(--brand-soft)}
+.btn.sm{height:28px;padding:0 10px;font-size:12px;border-radius:8px}
 .btn:disabled{opacity:.45;cursor:not-allowed}
 
 /* ---------- attribution bars ---------- */
 .arow{display:grid;grid-template-columns:96px minmax(0,1fr) 92px;gap:10px;align-items:center;padding:5px 0}
 .arow .nm{font-size:12.5px;color:var(--ink2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .arow .amt{font-size:12.5px;font-weight:600;text-align:right;font-variant-numeric:tabular-nums}
-.track{position:relative;height:20px;background:#F6F1EC;border-radius:5px;overflow:hidden}
-.track:before{content:"";position:absolute;left:50%;top:0;bottom:0;width:1px;background:#E2D8CE}
+.track{position:relative;height:20px;background:var(--inset);border-radius:5px;overflow:hidden}
+.track:before{content:"";position:absolute;left:50%;top:0;bottom:0;width:1px;background:#DDE5F2}
 .fill{position:absolute;top:3px;bottom:3px;border-radius:4px;min-width:2px}
-.fill.pos{background:#4FA98D}
-.fill.neg{background:#D9705F}
+.fill.pos{background:#17A673}
+.fill.neg{background:#E5484D}
 .split{display:flex;gap:0;margin-top:6px}
 .split div{flex:1;padding:10px 12px;border-right:1px solid var(--line2)}
 .split div:last-child{border-right:0}
 
 /* ---------- misc ---------- */
-.note{font-size:12px;color:var(--ink2);background:#FBF8F4;border:1px solid var(--line);border-left:3px solid var(--brand);border-radius:8px;padding:10px 13px;line-height:1.7}
+.note{font-size:12px;color:var(--ink2);background:#F7F9FD;border:1px solid var(--line);border-left:3px solid var(--brand);border-radius:var(--r3);padding:10px 12px;line-height:1.65}
 .note b{color:var(--ink)}
-.hint{font-size:11.5px;color:var(--ink3);margin:0}
-.bar-h{height:7px;background:#F3EDE7;border-radius:20px;overflow:hidden;position:relative}
-.bar-h i{display:block;height:100%;border-radius:20px;background:var(--brand)}
-.tick{position:absolute;top:-3px;bottom:-3px;width:2px;background:#7A6A5E;border-radius:2px}
+.hint{font-size:11px;color:var(--ink3);margin:0}
+.bar-h{height:7px;background:var(--inset);border-radius:999px;overflow:hidden;position:relative}
+.bar-h i{display:block;height:100%;border-radius:999px;background:var(--brand);transition:width .4s ease}
+.tick{position:absolute;top:-3px;bottom:-3px;width:2px;background:#8492A8;border-radius:2px}
 .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11.5px}
 .scroll{overflow-x:auto}
 .scroll table{min-width:640px}
-.kv{display:flex;justify-content:space-between;gap:10px;padding:6px 0;font-size:12.5px;border-bottom:1px dashed var(--line2)}
+.kv{display:flex;justify-content:space-between;gap:10px;padding:6px 0;font-size:12px;border-bottom:1px dashed var(--line2)}
 .kv:last-child{border:0}
 .kv span{color:var(--ink2)} .kv b{font-weight:600;font-variant-numeric:tabular-nums}
-.empty-state{padding:34px 20px;text-align:center;color:var(--ink3);font-size:12.5px}
-.steps{display:flex;gap:0;margin:14px 0 4px;border-radius:10px;overflow:hidden;border:1px solid var(--line)}
-.steps div{flex:1;padding:9px 10px;font-size:11.5px;color:var(--ink2);background:#FCFAF8;border-right:1px solid var(--line);position:relative}
+.empty-state{padding:40px 20px;text-align:center;color:var(--ink3);font-size:12px}
+.steps{display:flex;gap:0;margin:14px 0 4px;border-radius:var(--r3);overflow:hidden;border:1px solid var(--line)}
+.steps div{flex:1;padding:10px;font-size:11.5px;color:var(--ink2);background:#F7F9FD;border-right:1px solid var(--line);position:relative}
 .steps div:last-child{border-right:0}
 .steps b{display:block;font-size:11px;color:var(--ink3);font-weight:500}
 .steps div.on{background:var(--brand-soft);color:var(--brand-deep)}
 .steps div.on b{color:var(--brand)}
-.legend{display:flex;gap:14px;font-size:11.5px;color:var(--ink3);margin-top:8px;flex-wrap:wrap}
+.legend{display:flex;gap:14px;font-size:11px;color:var(--ink3);margin-top:8px;flex-wrap:wrap}
 .legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
 
 /* 基础版只有对账体检一张卡（占满整行），6 条检查项要分栏，才不会一行横跨 800+ px */
@@ -186,13 +231,13 @@ main{flex:1;min-width:0}
 /* 宽屏（≥1600）：内容铺开，但每块都别拉成一条——文字行长、日历格、KPI 都有上限，
    否则「填满」只是把空旷从右侧挪到卡片内部。 */
 @media(min-width:1600px){
-  .top{padding:12px 34px}
-  .content{padding:22px 34px 96px}
-  .hero{grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);gap:34px;padding:26px 30px}
-  .hero .big{font-size:50px}
-  .hero .facts{gap:26px}
-  .pad{padding:20px 22px}
-  .sec{margin:30px 0 13px}
+  .topin{padding:10px 16px}
+  .content{padding:16px 16px 96px}
+  .hero{grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);gap:22px;padding:18px 20px}
+  .hero .big{font-size:30px}
+  .hero .facts{gap:18px}
+  .pad{padding:14px}
+  .sec{margin:20px 0 10px}
   /* 日历铺满整行：格子宽度大一点反而好读，不用缩窄居中留两边白 */
   .cal{gap:8px}
   .cal .cell{min-height:68px}
@@ -201,13 +246,13 @@ main{flex:1;min-width:0}
   /* 表格类面板给足宽度，省得列被挤成两行 */
   .card.scroll{overflow-x:auto}
   /* 卡片铺开了，里面的东西不能跟着散：文字给行长上限，结论标签仍旧贴右 */
-  .verdict p{max-width:none}
+  .verdict p{max-width:640px}
   .lev{grid-template-columns:132px 92px minmax(0,820px) auto;gap:22px;justify-content:space-between}
-  .kpi .val{font-size:25px}
+  .kpi .val{font-size:21px}
   .todo .m{max-width:900px}
   .wkstrip{gap:14px}
-  .wk{padding:14px 16px}
-  .wk .wkn{font-size:19px}
+  .wk{padding:11px 13px}
+  .wk .wkn{font-size:17px}
   #targetInput{max-width:300px}
   /* 8 条缺口项排两列，省得一张卡拖到 900 高还只写半行字 */
   .misslist{display:grid;grid-template-columns:1fr 1fr;gap:0 24px}
@@ -224,44 +269,45 @@ main{flex:1;min-width:0}
 }
 @media(max-width:860px){
   body{display:block;overflow-x:hidden}
-  .side{position:fixed;left:0;right:0;bottom:0;top:auto;width:auto;height:auto;flex:0 0 auto;flex-direction:row;padding:6px 8px calc(6px + env(safe-area-inset-bottom));border-radius:18px 18px 0 0;box-shadow:0 -6px 24px -10px rgba(40,25,15,.5)}
+  .side{position:fixed;left:0;right:0;bottom:0;top:auto;width:auto;height:auto;flex:0 0 auto;flex-direction:row;padding:6px 8px calc(6px + env(safe-area-inset-bottom));border-radius:0;border-right:0;border-top:1px solid rgba(255,255,255,.1);background:rgba(11,27,58,.97);backdrop-filter:blur(10px);box-shadow:0 -8px 24px -14px rgba(11,27,58,.5)}
   .brand,.side-foot{display:none}
   nav{flex-direction:row;justify-content:space-between;gap:0;flex:1}
-  nav button{flex-direction:column;gap:3px;padding:6px 2px;font-size:10px;text-align:center;border-radius:9px;flex:1;justify-content:center}
+  nav button{flex-direction:column;gap:3px;padding:6px 2px;font-size:10px;text-align:center;border-radius:var(--r3);flex:1;justify-content:center}
   nav button svg{width:18px;height:18px;flex:0 0 18px}
   nav button .cnt{display:none}
-  .top{padding:10px 14px;gap:8px}
-  .top h1{font-size:15px}
+  .topin{padding:10px 12px;gap:8px}
+  .top h1{font-size:13px}
   #dataBtn{display:none}
-  .content{padding:14px 14px 92px}
+  .content{padding:12px 12px 92px}
   .g2,.g3{grid-template-columns:1fr}
   .g2.wa,.g2.wb{grid-template-columns:1fr}
-  .hero{padding:18px 16px;gap:16px;border-radius:16px}
-  .hero .big{font-size:34px}
-  .hero .facts{gap:14px;font-size:12px}
-  .cal{grid-template-columns:repeat(7,1fr);gap:3px}
-  .cal .cell{min-height:44px;padding:4px 3px}
-  .cal .cell .v{font-size:10px}
+  .hero{padding:14px 14px;gap:14px;border-radius:var(--r)}
+  .hero .big{font-size:24px}
+  .hero .facts{gap:8px 12px;font-size:11px}
+  .cal{grid-template-columns:repeat(7,1fr);gap:4px}
+  .cal .cell{min-height:46px;padding:5px 4px}
+  .cal .cell .v{font-size:10.5px}
   .arow{grid-template-columns:70px minmax(0,1fr) 74px;gap:7px}
-  .pad{padding:14px}
-  .todo{padding:11px 13px;gap:9px}
+  .pad{padding:14px 12px}
+  .kpi{padding:10px 12px 26px;min-height:100px}
+  .todo{padding:12px 14px;gap:9px}
   .todo .body{min-width:0}
-  .todo .btn{padding:5px 9px;font-size:11.5px}
+  .todo .btn{padding:0 9px;font-size:11.5px}
   .scroll{-webkit-overflow-scrolling:touch}
 }
 
 /* ---- 让利杠杆 ---- */
 .lev{display:grid;grid-template-columns:132px 92px minmax(0,1fr) auto;gap:18px;align-items:center;
   background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--line2);
-  border-radius:14px;padding:14px 18px;margin-top:16px;box-shadow:var(--sh)}
+  border-radius:var(--r2);padding:16px 20px;margin-top:16px;box-shadow:var(--sh)}
 .lev.lv-good{border-left-color:var(--pos)}
 .lev.lv-warn{border-left-color:var(--warn)}
 .lev.lv-bad{border-left-color:var(--neg)}
-.lev.lv-flat{border-left-color:#B9A79A}
+.lev.lv-flat{border-left-color:#C7D2E4}
 .lev .lefk{display:flex;flex-direction:column;gap:3px}
 .lev .lefk .lab{font-size:13px;font-weight:600;color:var(--ink)}
 .lev .lefk .q{font-size:11px;color:var(--ink3)}
-.lev .lefn{font-size:29px;font-weight:600;line-height:1;font-variant-numeric:tabular-nums;letter-spacing:-.5px}
+.lev .lefn{font-size:30px;font-weight:600;line-height:1;font-variant-numeric:tabular-nums;letter-spacing:-.5px}
 .lev .lefn small{font-size:12px;font-weight:500;color:var(--ink3);margin-left:2px}
 .lev.lv-good .lefn{color:var(--pos)}
 .lev.lv-warn .lefn{color:var(--warn)}
@@ -271,15 +317,15 @@ main{flex:1;min-width:0}
 .lev .lefd .s{font-size:11.5px;color:var(--ink3);margin-top:4px;line-height:1.6}
 .lev .lefd .s b{color:var(--ink2);font-weight:600}
 /* ---- 近 4 周走势 ---- */
-.wkstrip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
-.wk{border:1px solid var(--line);border-radius:12px;padding:11px 13px;cursor:pointer;background:#fff;transition:.15s;min-width:0}
-.wk:hover{border-color:#DFD2C6;background:#FDFBF9}
-.wk.on{border-color:var(--brand);background:#FFF8F5;box-shadow:0 0 0 1px rgba(226,85,43,.15) inset}
-.wk.hol{background:#FAF6F2}
+.wkstrip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.wk{border:1px solid var(--line);border-radius:var(--r2);padding:12px 14px;cursor:pointer;background:#fff;transition:border-color .12s,background .12s,box-shadow .12s;min-width:0}
+.wk:hover{border-color:#C9D5EA;background:#F7F9FD}
+.wk.on{border-color:var(--brand);background:#F2F6FF;box-shadow:0 0 0 1px rgba(47,107,255,.16) inset}
+.wk.hol{background:#F7F9FD}
 .wk .wkd{font-size:10.5px;color:var(--ink3);display:flex;gap:6px;align-items:center;flex-wrap:wrap}
-.wk .wkn{font-size:17px;font-weight:600;margin:5px 0 3px;font-variant-numeric:tabular-nums;letter-spacing:-.3px}
-.wk .wkr{font-size:11.5px;font-weight:500}
-.wk .now{font-size:9px;background:var(--brand);color:#fff;border-radius:3px;padding:1px 4px;font-weight:500}
+.wk .wkn{font-size:18px;font-weight:600;margin:6px 0 3px;font-variant-numeric:tabular-nums;letter-spacing:-.3px}
+.wk .wkr{font-size:11px;font-weight:500}
+.wk .now{font-size:9px;background:var(--brand);color:#fff;border-radius:4px;padding:1px 4px;font-weight:500}
 @media(max-width:900px){
   .lev{grid-template-columns:minmax(0,1fr) auto;gap:10px 14px}
   .lev .lefn{text-align:right}
@@ -293,10 +339,10 @@ main{flex:1;min-width:0}
 .flowbox{display:flex;flex-direction:column;gap:7px;margin-top:12px}
 .fl{display:grid;grid-template-columns:74px minmax(0,1fr) 112px 46px;gap:10px;align-items:center}
 .fl.ind .flk{padding-left:14px;position:relative}
-.fl.ind .flk::before{content:'';position:absolute;left:4px;top:50%;width:6px;height:1px;background:#DED0C4}
+.fl.ind .flk::before{content:'';position:absolute;left:4px;top:50%;width:6px;height:1px;background:#C9D5EA}
 .fl .flk{font-size:12.5px;color:var(--ink2);white-space:nowrap}
 .fl.strong .flk{font-weight:600;color:var(--ink)}
-.fl .flb{height:9px;background:#F4EEE8;border-radius:5px;overflow:hidden}
+.fl .flb{height:9px;background:var(--inset);border-radius:5px;overflow:hidden}
 .fl .flb i{display:block;height:100%;border-radius:5px;transition:width .4s}
 .fl .flv{font-size:13px;font-weight:600;text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
 .fl .flv .w{font-size:11px;font-weight:400;color:var(--ink3);margin-right:4px}
@@ -309,15 +355,15 @@ main{flex:1;min-width:0}
 .dhead .dc{text-align:center}
 .dhead .dr,.dhead .dpr{text-align:right}
 .dlist{display:flex;flex-direction:column}
-.drow{padding:7px 0;border-radius:6px}
-.drow:hover{background:#FDFAF8}
+.drow{padding:8px 0;border-radius:6px}
+.drow:hover{background:#F7F9FD}
 .dn{font-size:12.5px;color:var(--ink);display:flex;align-items:center;gap:5px;min-width:0}
 .dn .nt{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
 .drow.cm .dn{color:var(--ink2)}
-.dtag{font-size:9.5px;line-height:1.6;padding:0 5px;border-radius:3px;background:#E9DFD6;color:#7A6D63;font-weight:500;flex:none}
-.dtag.own{background:#FBE0D6;color:#AA3E28}
-.dbar{display:grid;grid-template-columns:1fr 1fr;height:10px;background:#F7F2ED;border-radius:5px;overflow:hidden}
-.dbar .l{display:flex;justify-content:flex-end;border-right:1px solid #E2D6C9}
+.dtag{font-size:9.5px;line-height:1.6;padding:0 5px;border-radius:3px;background:#EDF1F8;color:#6B7A94;font-weight:500;flex:none}
+.dtag.own{background:var(--accent-soft);color:#D06E00}
+.dbar{display:grid;grid-template-columns:1fr 1fr;height:10px;background:var(--inset);border-radius:5px;overflow:hidden}
+.dbar .l{display:flex;justify-content:flex-end;border-right:1px solid #DDE5F2}
 .dbar .r{display:flex;justify-content:flex-start}
 .dbar i{display:block;height:100%;transition:width .45s ease}
 .dbar .l i{border-radius:4px 0 0 4px}
@@ -345,7 +391,7 @@ main{flex:1;min-width:0}
   .card.scroll table{min-width:660px}
   .card.scroll table th:first-child,.card.scroll table td:first-child{
     position:sticky;left:0;background:var(--panel);z-index:1;white-space:nowrap;
-    box-shadow:6px 0 8px -6px rgba(120,90,70,.22)}
+    box-shadow:6px 0 8px -6px rgba(16,35,59,.22)}
   .card.scroll table th:first-child{background:var(--panel)}
 }
 
@@ -359,45 +405,64 @@ main{flex:1;min-width:0}
 }
 
 @media(max-width:560px){
-  .top{flex-direction:column;align-items:stretch;gap:8px}
+  /* 手机顶栏两行：第一行门店 + 导入图标，第二行区间分段铺满 */
+  .topin{flex-wrap:wrap;align-items:center;gap:8px}
   .top .sp{display:none}
   .top .sub{display:none}
-  .top select{width:100%}
-  .seg{width:100%}
+  /* 底栏已经标了当前页，手机上的页标题纯占地方，收掉换回一行高度 */
+  #viewTitle{display:none}
+  #storeSel{flex:1 1 auto;width:auto;max-width:none;order:1}
+  #importBtn{order:2;flex:0 0 auto;align-self:auto}
+  .seg{order:3;flex:1 1 100%;width:100%}
   .seg button{flex:1;text-align:center;padding:6px 2px;font-size:12px}
-  .g4{grid-template-columns:repeat(2,1fr);gap:10px}
-  .kpi{padding:11px 12px}
-  .kpi .val{font-size:19px;letter-spacing:-.3px}
-  .kpi .sub{font-size:10.5px;gap:4px}
-  .sec{flex-direction:column;align-items:flex-start;gap:3px;margin:22px 0 10px}
+  .g4{grid-template-columns:repeat(2,1fr);gap:12px}
+  .kpi{padding:10px 12px 24px}
+  .kpi .val{font-size:18px;letter-spacing:-.3px;margin:5px 0 3px}
+  .kpi .sub{font-size:11px;gap:4px}
+  .kpi .spark{height:20px}
+  .sec{flex-direction:column;align-items:flex-start;gap:3px;margin:20px 0 10px}
   .sec h2{white-space:nowrap}
   .chartscroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -4px;padding:0 4px}
   .chartscroll svg{min-width:600px}
-  .hero .big{font-size:31px}
+  .hero .big{font-size:24px}
   .todo{flex-wrap:wrap;row-gap:6px}
   .todo .body{flex:1 1 calc(100% - 46px)}
   .todo .amt{margin-left:39px}
   .todo .btn{margin-left:auto}
   .form4{grid-template-columns:1fr 1fr !important}
   #importBtn .btxt{display:none}
-  #importBtn{padding:6px 8px}
+  #importBtn{padding:0 10px}
 }
 
 /* ---------- 导入弹层 ---------- */
-.modal{position:fixed;inset:0;z-index:90;display:none;align-items:center;justify-content:center;padding:24px;background:rgba(28,25,22,.42);backdrop-filter:blur(2px)}
-.modal.on{display:flex}
-.sheet{background:var(--panel);border-radius:16px;box-shadow:0 24px 60px rgba(0,0,0,.24);width:min(760px,100%);max-height:88vh;display:flex;flex-direction:column;overflow:hidden}
+.modal{position:fixed;inset:0;z-index:90;display:none;align-items:center;justify-content:center;padding:24px;background:rgba(11,27,58,.42);backdrop-filter:blur(2px)}
+.modal.on{display:flex;animation:mFade .18s ease-out}
+@keyframes mFade{from{opacity:0}to{opacity:1}}
+.sheet{background:var(--panel);border-radius:14px;box-shadow:0 28px 64px rgba(11,27,58,.26);width:min(760px,100%);max-height:88vh;display:flex;flex-direction:column;overflow:hidden;animation:mUp .22s cubic-bezier(.16,1,.3,1)}
+@keyframes mUp{from{opacity:0;transform:translateY(8px) scale(.985)}to{opacity:1;transform:none}}
 .sheet-h{display:flex;align-items:flex-start;gap:12px;padding:18px 20px 14px;border-bottom:1px solid var(--line)}
-.sheet-h h3{margin:0;font-size:15px;font-weight:600}
-.sheet-h p{margin:3px 0 0;font-size:12px;color:var(--ink3)}
+.sheet-h h3{margin:0;font-size:20px;font-weight:600;letter-spacing:-.1px}
+.sheet-h p{margin:4px 0 0;font-size:12px;color:var(--ink3)}
 .sheet-b{padding:18px 20px;overflow:auto;flex:1}
-.sheet-f{display:flex;gap:9px;justify-content:flex-end;padding:13px 20px;border-top:1px solid var(--line);background:#FCFAF7;flex-wrap:wrap}
-.drop{border:1.5px dashed var(--line);border-radius:13px;padding:26px 18px;text-align:center;background:#FCFAF7;transition:.16s;cursor:pointer}
+.sheet-f{display:flex;gap:10px;justify-content:flex-end;padding:12px 20px;border-top:1px solid var(--line);background:#F7F9FD;flex-wrap:wrap}
+.drop{border:1.5px dashed #CBD8EA;border-radius:var(--r2);padding:28px 18px;text-align:center;background:#F7F9FD;transition:border-color .16s,background .16s;cursor:pointer}
 .drop:hover,.drop.hot{border-color:var(--brand);background:var(--brand-soft)}
 .drop .ic{font-size:26px;line-height:1;margin-bottom:8px}
 .drop b{font-size:13.5px}
 .drop .hint{margin-top:5px}
-.finfo{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;background:#FCFAF7;border:1px solid var(--line);border-radius:11px;padding:12px 14px;margin-bottom:14px}
+.finfo{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;background:#F7F9FD;border:1px solid var(--line);border-radius:var(--r2);padding:14px 16px;margin-bottom:14px}
+/* 覆盖 / 追加 二选一：两个选项的后果必须写清楚，光靠单选按钮用户不知道会发生什么 */
+.impmode{display:grid;gap:8px;background:#F7F9FD;border:1px solid var(--line);border-radius:var(--r2);padding:14px 16px;margin-bottom:14px}
+.impmode-h{font-size:12.5px;font-weight:600;margin-bottom:1px}
+.impmode label{display:flex;gap:9px;align-items:flex-start;padding:10px 12px;border:1px solid var(--line);border-radius:var(--r3);background:#fff;cursor:pointer;transition:border-color .12s,background .12s}
+.impmode label:hover{border-color:#C9D5EA}
+.impmode label.on{border-color:var(--brand);background:var(--brand-soft)}
+.impmode label.off{opacity:.6;cursor:not-allowed}
+.impmode label.off:hover{border-color:var(--line)}
+.impmode input{margin:3px 0 0;flex:0 0 auto;accent-color:var(--brand)}
+.impmode-t{flex:1;min-width:0}
+.impmode-t b{font-size:12.5px}
+.impmode-d{font-size:11.5px;color:var(--ink2);line-height:1.7;margin-top:2px}
 .finfo .k{font-size:11px;color:var(--ink3)}
 .finfo .v{font-size:14px;font-weight:600;margin-top:2px;line-height:1.35;overflow:hidden;max-height:2.8em;word-break:break-all}
 .mapt{width:100%;border-collapse:collapse;font-size:12.5px}
@@ -415,7 +480,7 @@ main{flex:1;min-width:0}
 @keyframes sp{to{transform:rotate(360deg)}}
 @media(max-width:640px){
   .modal{padding:0;align-items:flex-end}
-  .sheet{width:100%;max-height:92vh;border-radius:16px 16px 0 0}
+  .sheet{width:100%;max-height:92vh;border-radius:14px 14px 0 0}
   .finfo{grid-template-columns:1fr 1fr}
   .sheet-f{justify-content:stretch}
   .sheet-f .btn{flex:1}
@@ -431,30 +496,38 @@ main{flex:1;min-width:0}
   .mapt select{width:100%;max-width:none}
 }
 .only-sm{display:none}
+/* 动效：只做反馈不做表演；系统要求减少动效时全部关掉 */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
+  .content{animation:none}
+}
 </style>
 </head>
 <body>
 
 <aside class="side">
-  <div class="brand"><b>门店经营助手</b><span id="brandSub">单店版 · 真实收银数据</span></div>
+  <div class="brand">
+    <i><svg viewBox="0 0 24 24"><path d="M4 19V9"/><path d="M10 19V5"/><path d="M16 19v-7"/><path d="M22 19H2"/></svg></i>
+    <div><b>门店经营助手</b><span id="brandSub">单店版 · 真实收银数据</span></div>
+  </div>
   <nav id="nav"></nav>
   <div class="side-foot" id="sideFoot"></div>
 </aside>
 
 <main>
-  <header class="top">
+  <header class="top"><div class="topin">
     <h1 id="viewTitle">经营</h1>
     <span class="sub" id="viewSub"></span>
     <div class="sp"></div>
-    <button class="btn ghost" id="importBtn" title="导入自己的收银明细">
-      <svg viewBox="0 0 24 24" style="width:14px;height:14px;flex:0 0 14px"><path d="M12 16V4"/><path d="m7 9 5-5 5 5"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg>
-      <span class="btxt">导入</span></button>
     <select id="storeSel" title="选择门店"></select>
     <div class="seg" id="periodSeg"></div>
+    <button class="btn ghost" id="importBtn" title="导入自己的收银明细">
+      <svg viewBox="0 0 24 24" style="width:14px;height:14px;flex:0 0 14px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M12 16V4"/><path d="m7 9 5-5 5 5"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg>
+      <span class="btxt">导入</span></button>
     <div id="dateWrap" style="display:none;align-items:center;gap:6px">
       <input type="date" id="dateA"><span style="color:var(--ink3)">~</span><input type="date" id="dateB">
     </div>
-  </header>
+  </div></header>
   <div class="content" id="content"></div>
 </main>
 
@@ -1418,10 +1491,22 @@ let M = DATA.meta;
 let STORE_KEYS = Object.keys(DATA.stores);
 
 /* 版本标识：发布、反馈、截图都以这三个常量为准 */
-const APP_VER = '2.4.3';
-const APP_BUILD = '2026-11-07';
+const APP_VER = '2.6.0';
+const APP_BUILD = '2026-11-09';
 const APP_TAG = 'v' + APP_VER;
 const APP_TAG_FULL = 'v' + APP_VER + ' · 构建 ' + APP_BUILD;
+
+/* 图表调色板：收入口径走墨绿，成本/让利口径走陶橙，中性灰只做网格与轴标。
+   与 DESIGN.md 2.3 的图表色序一致，任何新图都必须从这里取色，不许再写死 hex。 */
+const C = {
+  brand: '#2979FF', brandDk: '#1E5FE0',
+  accent: '#F58700', accentDk: '#D06E00',
+  pos: '#0BA55C', neg: '#E5484D',
+  ink: '#16233B', ink2: '#5C6B85', ink3: '#9AA7BD',
+  grid: '#EEF2F9', axis: '#DDE5F2',
+  neu: '#C7D2E4', neuLt: '#E2E9F5', neuDk: '#8492A8',
+  k1: '#7C4DFF', k2: '#0A8249', k3: '#B85E00', k4: '#1E5FE0', k5: '#C41657', k6: '#0A7C77'
+};
 
 /* 形态开关：full 五页齐全；basic 只留「经营 + 数据」。
    构建脚本注入 WB_EDITION，源码直开时按 full。整个应用只认这两个常量，
@@ -1931,8 +2016,8 @@ function trendChart(days, a, b) {
   let grid = '';
   for (let i = 0; i <= 3; i++) {
     const gy = T + (i / 3) * (H - T - B), gv = yMax * (1 - i / 3);
-    grid += `<line x1="${L}" y1="${gy}" x2="${W - R}" y2="${gy}" stroke="#F0E9E2" stroke-width="1"/>`;
-    grid += `<text x="${L - 8}" y="${gy + 4}" text-anchor="end" font-size="10" fill="#A2958C">${nf(gv / 1000, 0)}k</text>`;
+    grid += `<line x1="${L}" y1="${gy}" x2="${W - R}" y2="${gy}" stroke="${C.grid}" stroke-width="1"/>`;
+    grid += `<text x="${L - 8}" y="${gy + 4}" text-anchor="end" font-size="10" fill="${C.ink3}">${nf(gv / 1000, 0)}k</text>`;
   }
   const area = `M${x(0)},${H - B} ` + days.map((d, i) => `L${x(i)},${y(d.net)}`).join(' ') + ` L${x(days.length - 1)},${H - B} Z`;
   const line = days.map((d, i) => `${i ? 'L' : 'M'}${x(i)},${y(d.net)}`).join(' ');
@@ -1940,18 +2025,18 @@ function trendChart(days, a, b) {
   const maPath = maArr.map((v, i) => `${i ? 'L' : 'M'}${x(i)},${y(v)}`).join(' ');
   let pts = '', labs = '';
   days.forEach((d, i) => {
-    pts += `<circle cx="${x(i)}" cy="${y(d.net)}" r="2.8" fill="#fff" stroke="#E2552B" stroke-width="1.8"><title>${d.d} ${wdName(d.d)}  实收 ${money2(d.net)} · ${nf(d.orders)} 单 · 单均 ${money2(d.avg)}</title></circle>`;
+    pts += `<circle cx="${x(i)}" cy="${y(d.net)}" r="2.8" fill="#fff" stroke="${C.brand}" stroke-width="1.8"><title>${d.d} ${wdName(d.d)}  实收 ${money2(d.net)} · ${nf(d.orders)} 单 · 单均 ${money2(d.avg)}</title></circle>`;
     if (i % Math.ceil(days.length / 8) === 0 || i === days.length - 1)
-      labs += `<text x="${x(i)}" y="${H - 8}" text-anchor="middle" font-size="10" fill="#A2958C">${md(d.d)}</text>`;
+      labs += `<text x="${x(i)}" y="${H - 8}" text-anchor="middle" font-size="10" fill="${C.ink3}">${md(d.d)}</text>`;
   });
   return `<div class="chartscroll"><svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;display:block">
     ${grid}
     <path d="${area}" fill="url(#grad1)" opacity=".55"/>
     <defs><linearGradient id="grad1" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#E2552B" stop-opacity=".28"/><stop offset="100%" stop-color="#E2552B" stop-opacity="0"/>
+      <stop offset="0%" stop-color="${C.brand}" stop-opacity=".18"/><stop offset="100%" stop-color="${C.brand}" stop-opacity="0"/>
     </linearGradient></defs>
-    <path d="${line}" fill="none" stroke="#E2552B" stroke-width="2.2" stroke-linejoin="round"/>
-    <path d="${maPath}" fill="none" stroke="#8B7A6D" stroke-width="1.3" stroke-dasharray="5 4" opacity=".75"/>
+    <path d="${line}" fill="none" stroke="${C.brand}" stroke-width="2" stroke-linejoin="round"/>
+    <path d="${maPath}" fill="none" stroke="${C.pos}" stroke-width="1.3" stroke-dasharray="5 4" opacity=".75"/>
     ${pts}${labs}
   </svg></div>`;
 }
@@ -2030,27 +2115,27 @@ function pairWeekChart(c) {
   let grid = '';
   for (let i = 0; i <= 3; i++) {
     const gy = T + (i / 3) * (H - T - Bm), gv = yMax * (1 - i / 3);
-    grid += `<line x1="${L}" y1="${gy}" x2="${W - R}" y2="${gy}" stroke="#F0E9E2"/>`;
-    grid += `<text x="${L - 8}" y="${gy + 4}" text-anchor="end" font-size="10" fill="#A2958C">${nf(gv / 1000, 0)}k</text>`;
+    grid += `<line x1="${L}" y1="${gy}" x2="${W - R}" y2="${gy}" stroke="${C.grid}"/>`;
+    grid += `<text x="${L - 8}" y="${gy + 4}" text-anchor="end" font-size="10" fill="${C.ink3}">${nf(gv / 1000, 0)}k</text>`;
   }
   let bars = '', labs = '';
   pairs.forEach((p, i) => {
     const cx = L + gw * i + gw / 2;
     const xa = cx - bw - 3, xb = cx + 3;
     const ya = y(p.a), yb = y(p.b);
-    bars += `<rect x="${xb}" y="${yb}" width="${bw}" height="${H - Bm - yb}" rx="2" fill="#DED0C4"><title>上周 ${p.d0} ${wdName(p.d0)}  实收 ${money2(p.b)} · ${nf(p.ob)} 单</title></rect>`;
-    bars += `<rect x="${xa}" y="${ya}" width="${bw}" height="${H - Bm - ya}" rx="2" fill="${p.a >= p.b ? '#E2552B' : '#B9A79A'}"><title>本周 ${p.d} ${wdName(p.d)}  实收 ${money2(p.a)} · ${nf(p.oa)} 单</title></rect>`;
+    bars += `<rect x="${xb}" y="${yb}" width="${bw}" height="${H - Bm - yb}" rx="2" fill="${C.pos}" opacity=".55"><title>上周 ${p.d0} ${wdName(p.d0)}  实收 ${money2(p.b)} · ${nf(p.ob)} 单</title></rect>`;
+    bars += `<rect x="${xa}" y="${ya}" width="${bw}" height="${H - Bm - ya}" rx="2" fill="${C.brand}"><title>本周 ${p.d} ${wdName(p.d)}  实收 ${money2(p.a)} · ${nf(p.oa)} 单</title></rect>`;
     const up = p.r != null && p.r > 0.005, dn = p.r != null && p.r < -0.005;
-    const col = up ? '#166B52' : dn ? '#8E2F24' : '#A2958C';
+    const col = up ? C.pos : dn ? C.neg : C.ink3;
     const txt = p.r == null ? '—' : (p.r >= 0 ? '+' : '−') + Math.abs(p.r * 100).toFixed(0) + '%';
     bars += `<text x="${cx}" y="${Math.min(ya, yb) - 7}" text-anchor="middle" font-size="10.5" font-weight="600" fill="${col}">${txt}</text>`;
-    labs += `<text x="${cx}" y="${H - 26}" text-anchor="middle" font-size="10.5" fill="#6B6058" font-weight="500">${wdName(p.d)}</text>`;
-    labs += `<text x="${cx}" y="${H - 12}" text-anchor="middle" font-size="9.5" fill="#A2958C">${Number(p.d.slice(8))}日</text>`;
+    labs += `<text x="${cx}" y="${H - 26}" text-anchor="middle" font-size="10.5" fill="${C.ink2}" font-weight="500">${wdName(p.d)}</text>`;
+    labs += `<text x="${cx}" y="${H - 12}" text-anchor="middle" font-size="9.5" fill="${C.ink3}">${Number(p.d.slice(8))}日</text>`;
   });
-  const legend = `<g><rect x="${L}" y="6" width="9" height="9" rx="2" fill="#E2552B"/><text x="${L + 14}" y="14" font-size="10.5" fill="#6B6058">本周</text>
-    <rect x="${L + 56}" y="6" width="9" height="9" rx="2" fill="#DED0C4"/><text x="${L + 70}" y="14" font-size="10.5" fill="#6B6058">上周</text></g>`;
+  const legend = `<g><rect x="${L}" y="6" width="9" height="9" rx="2" fill="${C.brand}"/><text x="${L + 14}" y="14" font-size="10.5" fill="${C.ink2}">本周</text>
+    <rect x="${L + 56}" y="6" width="9" height="9" rx="2" fill="${C.pos}" opacity=".7"/><text x="${L + 70}" y="14" font-size="10.5" fill="${C.ink2}">上周</text></g>`;
   return `<div class="chartscroll"><svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;display:block">
-    ${legend}${grid}<line x1="${L}" y1="${H - Bm}" x2="${W - R}" y2="${H - Bm}" stroke="#E2D7CC"/>${bars}${labs}</svg></div>`;
+    ${legend}${grid}<line x1="${L}" y1="${H - Bm}" x2="${W - R}" y2="${H - Bm}" stroke="${C.axis}"/>${bars}${labs}</svg></div>`;
 }
 
 /* 5.2 近 4 周走势：滚动 7 天窗口，假期周单独标灰，不让它污染趋势判断 */
@@ -2228,20 +2313,20 @@ function discTimeline() {
   curve.forEach((r, i) => {
     const bx = L + i * bw, bh = H - B - y(r.rate);
     const hot = br && r.d >= br.start;
-    bars += `<rect x="${bx + bw * 0.18}" y="${y(r.rate)}" width="${bw * 0.64}" height="${Math.max(1, bh)}" rx="2" fill="${hot ? '#E2552B' : '#E8CFC3'}"><title>${r.d}  自有让利 ${money2(r.own)} · 让利率 ${pct(r.rate)}</title></rect>`;
-    if (i % 5 === 0) labs += `<text x="${bx + bw / 2}" y="${H - 7}" text-anchor="middle" font-size="10" fill="#A2958C">${Number(r.d.slice(5, 7))}/${Number(r.d.slice(8))}</text>`;
+    bars += `<rect x="${bx + bw * 0.18}" y="${y(r.rate)}" width="${bw * 0.64}" height="${Math.max(1, bh)}" rx="2" fill="${hot ? C.accent : '#FDE3CF'}"><title>${r.d}  自有让利 ${money2(r.own)} · 让利率 ${pct(r.rate)}</title></rect>`;
+    if (i % 5 === 0) labs += `<text x="${bx + bw / 2}" y="${H - 7}" text-anchor="middle" font-size="10" fill="${C.ink3}">${Number(r.d.slice(5, 7))}/${Number(r.d.slice(8))}</text>`;
   });
   let ln = '', mk = '';
   if (br) {
-    ln = `<line x1="${L}" y1="${y(br.pre)}" x2="${W - R}" y2="${y(br.pre)}" stroke="#B9A79A" stroke-width="1" stroke-dasharray="4 3"/>
-      <text x="${L + 3}" y="${y(br.pre) - 5}" text-anchor="start" font-size="10" fill="#8C7F75">之前均值 ${pct(br.pre)}</text>`;
+    ln = `<line x1="${L}" y1="${y(br.pre)}" x2="${W - R}" y2="${y(br.pre)}" stroke="${C.neu}" stroke-width="1" stroke-dasharray="4 3"/>
+      <text x="${L + 3}" y="${y(br.pre) - 5}" text-anchor="start" font-size="10" fill="${C.ink3}">之前均值 ${pct(br.pre)}</text>`;
     const idx = curve.findIndex(r => r.d === br.start);
     const px = L + idx * bw + bw / 2;
-    mk = `<line x1="${px}" y1="${T - 4}" x2="${px}" y2="${H - B}" stroke="#E2552B" stroke-width="1.2" stroke-dasharray="3 3"/>
-      <text x="${px + 5}" y="${T + 2}" font-size="10" fill="#C0442A">${md(br.start)} 起放量</text>`;
+    mk = `<line x1="${px}" y1="${T - 4}" x2="${px}" y2="${H - B}" stroke="${C.accent}" stroke-width="1.2" stroke-dasharray="3 3"/>
+      <text x="${px + 5}" y="${T + 2}" font-size="10" fill="${C.accentDk}">${md(br.start)} 起放量</text>`;
   }
   return `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;display:block">${bars}${ln}${mk}${labs}
-    <line x1="${L}" y1="${H - B}" x2="${W - R}" y2="${H - B}" stroke="#EDE6DF"/></svg>`;
+    <line x1="${L}" y1="${H - B}" x2="${W - R}" y2="${H - B}" stroke="${C.axis}"/></svg>`;
 }
 function discBlock(c) {
   const sp = discSplit(c);
@@ -2251,7 +2336,7 @@ function discBlock(c) {
   const show = sp.rows.filter(r => Math.abs(r.d) >= 1 || Math.abs(r.a) >= 1).slice(0, 9);
   const rows = show.map(r => {
     const w = Math.abs(r.d) / mx * 100;
-    const col = Math.abs(r.d) < 1 ? '#C9B9AC' : r.d > 0 ? '#E2552B' : '#4FA98D';
+    const col = Math.abs(r.d) < 1 ? C.neu : r.d > 0 ? C.accent : C.pos;
     return `<div class="drow${r.comm ? ' cm' : ''}">
       <div class="dn" title="${esc(r.name)}"><span class="nt">${esc(discName(r.name))}</span>${r.comm ? '<span class="dtag">刚性</span>' : '<span class="dtag own">可调</span>'}</div>
       <div class="dbar"><div class="l">${r.d < 0 ? `<i style="width:${w}%;background:${col}"></i>` : ''}</div><div class="r">${r.d > 0 ? `<i style="width:${w}%;background:${col}"></i>` : ''}</div></div>
@@ -2279,8 +2364,8 @@ function discBlock(c) {
     <div class="dlist">${rows}</div>
     <p class="dlead">${lead}${commD < -1 ? `平台佣金反而少付了 <b>${money(Math.abs(commD))}</b>，` : ''}${ownTop ? `问题不在平台抽成，在<b>「${esc(ownTop.name)}」</b>——这是<b>自己能调的</b>。` : '多出来的钱主要在刚性佣金上，不是靠调折扣能解决的。'}</p>
     <div class="dsplit">
-      <div><span class="dot" style="background:#E2552B"></span>自己让的（可调）<b>${sm(ownD)}</b></div>
-      <div><span class="dot" style="background:#8E2F24"></span>平台佣金（刚性）<b>${sm(commD)}</b></div>
+      <div><span class="dot" style="background:var(--accent)"></span>自己让的（可调）<b>${sm(ownD)}</b></div>
+      <div><span class="dot" style="background:#6B7A94"></span>平台佣金（刚性）<b>${sm(commD)}</b></div>
       <div class="sp"></div>
       <div class="hint">合计 ${sm(sp.totD)} · 与「流水 − 实收」的差额一致</div>
     </div>
@@ -2308,11 +2393,11 @@ function hourChart(hourly) {
   hourly.forEach((h, i) => {
     const bx = L + i * bw, bh = H - B - y(h.net);
     const hot = h.net > mx * 0.62;
-    bars += `<rect x="${bx + bw * 0.16}" y="${y(h.net)}" width="${bw * 0.68}" height="${Math.max(1, bh)}" rx="3" fill="${hot ? '#E2552B' : '#E8CFC3'}"><title>${h.h}:00  实收 ${money2(h.net)} · ${nf(h.orders)} 单 · 单均 ${money2(h.avg)}</title></rect>`;
-    if (i % 3 === 0) labs += `<text x="${bx + bw / 2}" y="${H - 8}" text-anchor="middle" font-size="10" fill="#A2958C">${h.h}</text>`;
+    bars += `<rect x="${bx + bw * 0.16}" y="${y(h.net)}" width="${bw * 0.68}" height="${Math.max(1, bh)}" rx="3" fill="${hot ? C.brand : '#E6ECF5'}"><title>${h.h}:00  实收 ${money2(h.net)} · ${nf(h.orders)} 单 · 单均 ${money2(h.avg)}</title></rect>`;
+    if (i % 3 === 0) labs += `<text x="${bx + bw / 2}" y="${H - 8}" text-anchor="middle" font-size="10" fill="${C.ink3}">${h.h}</text>`;
   });
   return `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;display:block">${bars}${labs}
-    <line x1="${L}" y1="${H - B}" x2="${W - R}" y2="${H - B}" stroke="#EDE6DF"/></svg>`;
+    <line x1="${L}" y1="${H - B}" x2="${W - R}" y2="${H - B}" stroke="${C.axis}"/></svg>`;
 }
 function arow(r, maxAbs) {
   const w = Math.min(50, Math.abs(r.dNet) / maxAbs * 50);
@@ -2343,12 +2428,12 @@ function calendarHtml(s) {
       const b = weekdayBase(c.d);
       const rate = (b && b.net) ? (c.net - b.net) / b.net : 0;
       const isH = state.exHoliday && isHol(c.d);
-      let bg = '#F4EFE9', fg = '#5F544B';
-      if (rate <= -0.15) { bg = '#F2D2CA'; fg = '#8E2F24'; }
-      else if (rate <= -0.05) { bg = '#FAE5DF'; fg = '#A8453A'; }
-      else if (rate < 0.05) { bg = '#F4EFE9'; fg = '#5F544B'; }
-      else if (rate < 0.15) { bg = '#E2F0EA'; fg = '#166B52'; }
-      else { bg = '#C7E6DA'; fg = '#0F5943'; }
+      let bg = 'var(--heat-z)', fg = 'var(--heat-zi)';
+      if (rate <= -0.15) { bg = 'var(--heat-n2)'; fg = 'var(--heat-n2i)'; }
+      else if (rate <= -0.05) { bg = 'var(--heat-n1)'; fg = 'var(--heat-n1i)'; }
+      else if (rate < 0.05) { bg = 'var(--heat-z)'; fg = 'var(--heat-zi)'; }
+      else if (rate < 0.15) { bg = 'var(--heat-p1)'; fg = 'var(--heat-p1i)'; }
+      else { bg = 'var(--heat-p2)'; fg = 'var(--heat-p2i)'; }
       /* 点开某天要进归因页，基础版没有那一页，就别给可点的暗示 */
       const canOpen = hasView('why');
       body += `<div class="cell${isH ? ' holv' : ''}"${canOpen ? ` data-act="day" data-date="${c.d}"` : ''} style="background:${bg};color:${fg}${canOpen ? '' : ';cursor:default'}" title="${c.d} ${wdName(c.d)}  实收 ${money2(c.net)} · ${nf(c.orders)} 单\n${isH ? '假期日，已从对比基线中剔除（基数不可比）' : `同星期均值 ${b ? money2(b.net) : '—'}（${spct(rate)}）`}">
@@ -2357,12 +2442,12 @@ function calendarHtml(s) {
   }
   return `<div class="cal">${head}${body}</div>
   <div class="cal-legend"><span>相对同星期均值：</span>
-    <span><i class="lgdot" style="background:#F2D2CA"></i>≤−15%</span>
-    <span><i class="lgdot" style="background:#FAE5DF"></i>−15%~−5%</span>
-    <span><i class="lgdot" style="background:#F4EFE9;border:1px solid #E2D8CE"></i>±5%</span>
-    <span><i class="lgdot" style="background:#E2F0EA"></i>+5%~+15%</span>
-    <span><i class="lgdot" style="background:#C7E6DA"></i>≥+15%</span>
-    <span><i class="lgdot" style="background:#EFE8E0;border:1px dashed #D3C4B5"></i>假期日（不参与基线）</span>
+    <span><i class="lgdot" style="background:var(--heat-n2)"></i>≤−15%</span>
+    <span><i class="lgdot" style="background:var(--heat-n1)"></i>−15%~−5%</span>
+    <span><i class="lgdot" style="background:var(--heat-z);border:1px solid var(--line)"></i>±5%</span>
+    <span><i class="lgdot" style="background:var(--heat-p1)"></i>+5%~+15%</span>
+    <span><i class="lgdot" style="background:var(--heat-p2)"></i>≥+15%</span>
+    <span><i class="lgdot" style="background:var(--inset);border:1px dashed var(--line)"></i>假期日（不参与基线）</span>
   </div>`;
 }
 
@@ -2383,11 +2468,30 @@ const ICONS = {
 const icon = (k) => `<svg viewBox="0 0 24 24">${ICONS[k] || ICONS.ok}</svg>`;
 
 /* ---------- 8. 视图：经营 ---------- */
-function kpiCard(o) {
+/* design-r2：每个 KPI 一个语义色相，卡内嵌一条白色迷你折线（数据来自当期逐日序列） */
+const KPI_ICONS = [
+  '<path d="M3 17h18"/><path d="M6 13l4-4 3 3 5-6"/>',
+  '<path d="M6 20V10"/><path d="M12 20V4"/><path d="M18 20v-7"/>',
+  '<circle cx="12" cy="12" r="9"/><path d="M12 7v10"/><path d="M9.5 9.5h5"/>',
+  '<path d="M4 18 9 13l3 3 7-8"/><path d="M15 8h4v4"/>',
+  '<circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/>',
+  '<path d="M3 12a9 9 0 1 0 18 0"/><path d="M12 7v5l3 2"/>'
+];
+function kpiSpark(arr) {
+  const v = (arr || []).filter(x => isFinite(x));
+  if (v.length < 2) return '';
+  const mn = Math.min(...v), mx = Math.max(...v), sp = (mx - mn) || 1;
+  const pts = v.map((x, i) => `${(i / (v.length - 1) * 100).toFixed(2)},${(22 - (x - mn) / sp * 16).toFixed(2)}`).join(' ');
+  return `<svg class="spark" viewBox="0 0 100 28" preserveAspectRatio="none" aria-hidden="true"><polyline points="${pts}" fill="none" stroke="rgba(255,255,255,.82)" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"/></svg>`;
+}
+function kpiCard(o, i) {
   const d = o.delta;
   const cls = d == null ? 'na' : d >= 0 ? 'up' : 'dn';
   const dTxt = d == null ? '—' : o.pp ? ((d >= 0 ? '+' : '−') + Math.abs(d * 100).toFixed(1) + 'pp') : spct(d);
-  return `<div class="kpi">
+  const kc = ['var(--k1)', 'var(--k2)', 'var(--k3)', 'var(--k4)', 'var(--k5)', 'var(--k6)'][i % 6];
+  return `<div class="kpi" style="--kc:${kc}">
+    <svg class="kicon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${KPI_ICONS[i % 6]}</svg>
+    ${kpiSpark(o.spark)}
     <div class="lab">${esc(o.label)}${o.tip ? `<span title="${esc(o.tip)}" style="cursor:help;opacity:.5">ⓘ</span>` : ''}</div>
     <div class="val">${o.value}</div>
     <div class="sub"><span class="dlt ${cls}">${dTxt}</span><span>${o.sub || ''}</span></div>
@@ -2433,7 +2537,7 @@ function viewHome() {
     const remain = Math.max(0, tgSpan - elapsed);
     const tagCls = rate >= 1 ? 'good' : rate >= 0.9 ? 'flat' : 'bad';
     const tagTxt = rate >= 1 ? '已达标' : rate >= 0.9 ? '接近目标' : '低于目标';
-    verdict = `<div class="tagrow"><span class="vtag ${tagCls}">${tagTxt}</span><span style="font-size:11.5px;color:#B39C8D">${CYCLE_NAME[tgt.cycle]} ${money(tgt.value)} · 本期 ${tgSpan} 天折算 ${money(tgPer)}</span></div>
+    verdict = `<div class="tagrow"><span class="vtag ${tagCls}">${tagTxt}</span><span style="font-size:11.5px;color:#9AA7BD">${CYCLE_NAME[tgt.cycle]} ${money(tgt.value)} · 本期 ${tgSpan} 天折算 ${money(tgPer)}</span></div>
       <p>${rate >= 1
         ? `本期比目标多 <b>${money(A.net - tgPer)}</b>，达成率 <b>${pct(rate)}</b>。`
         : `本期差 <b>${money(tgPer - A.net)}</b>，达成率 <b>${pct(rate)}</b>。日均需 <b>${money(dailyNeed)}</b>，实际日均 <b>${money(dailyAct)}</b>。`}</p>
@@ -2441,23 +2545,24 @@ function viewHome() {
         ? `还剩 <b>${remain}</b> 天，要追上目标，接下来每天需做到 <b>${money((tgPer - A.net) / remain)}</b>。`
         : `周期已结束。${n.tag === 'bad' ? `主要拖累：<b>${n.top ? esc(n.top.name) : '整体下滑'}</b>` : '结构上没有明显拖累项。'}`}</div>`;
   } else {
-    verdict = `<div class="tagrow"><span class="vtag ${n.tag === 'bad' ? 'bad' : n.tag === 'good' ? 'good' : 'flat'}">${n.tag === 'bad' ? '低于基准' : n.tag === 'good' ? '高于基准' : '基本持平'}</span><span style="font-size:11.5px;color:#B39C8D">对照：${esc(c.labelB)}</span></div>
+    verdict = `<div class="tagrow"><span class="vtag ${n.tag === 'bad' ? 'bad' : n.tag === 'good' ? 'good' : 'flat'}">${n.tag === 'bad' ? '低于基准' : n.tag === 'good' ? '高于基准' : '基本持平'}</span><span style="font-size:11.5px;color:#9AA7BD">对照：${esc(c.labelB)}</span></div>
       <p>${n.dNet < 0 ? `少卖 <b>${money(Math.abs(n.dNet))}</b>（${spct(n.rate)}）` : `多卖 <b>${money(Math.abs(n.dNet))}</b>（${spct(n.rate)}）`}，订单数 ${spct(n.oQ)}、单均 ${spct(n.oP)}，主要是<b>${n.natureSentence}</b>。</p>
       <div class="why">${n.why}</div>`;
   }
 
   /* KPI 与顶部结论必须同一口径：都用「后半段 vs 前半段」的日均，避免读者看到两个不同的降幅 */
   const takeA = div(c.A.net, c.A.gross), takeB = div(c.B.net, c.B.gross);
+  const sparkOf = fn => days.map(fn).filter(x => isFinite(x));
   const kpis = [
-    { label: '实收', value: money(A.net), delta: n.rate, sub: `${c.labelA}日均 ${money(c.A.net / c.A.days)}，较${c.shortB}`, tip: '流水 − 优惠，等于真正进账的钱；环比按日均算，避免天数不等' },
-    { label: '订单数', value: nf(A.orders), delta: n.oQ, sub: `${c.labelA}日均 ${nf(c.A.orders / c.A.days)} 单，较${c.shortB}`, tip: '按订单编号去重' },
-    { label: '单均实收', value: money2(A.avg), delta: n.oP, sub: `元/单，较${c.shortB}`, tip: '实收 ÷ 订单数' },
-    { label: '到手率', value: pct(A.takeRate), delta: (takeA != null && takeB != null) ? takeA - takeB : null, pp: true, sub: `实收 ÷ 流水 · ${c.labelA} ${pct(takeA)} vs ${c.shortB} ${pct(takeB)}`, tip: '每 100 元流水，扣掉优惠与平台佣金后到手的比例' }
+    { label: '实收', value: money(A.net), delta: n.rate, sub: `${c.labelA}日均 ${money(c.A.net / c.A.days)}`, tip: '流水 − 优惠，等于真正进账的钱；环比按日均算，避免天数不等', spark: sparkOf(x => x.net) },
+    { label: '订单数', value: nf(A.orders), delta: n.oQ, sub: `${c.labelA}日均 ${nf(c.A.orders / c.A.days)} 单`, tip: '按订单编号去重', spark: sparkOf(x => x.orders) },
+    { label: '单均实收', value: money2(A.avg), delta: n.oP, sub: `元/单`, tip: '实收 ÷ 订单数', spark: sparkOf(x => x.orders ? x.net / x.orders : 0) },
+    { label: '到手率', value: pct(A.takeRate), delta: (takeA != null && takeB != null) ? takeA - takeB : null, pp: true, sub: `实收 ÷ 流水 · ${c.labelA} ${pct(takeA)} vs ${c.shortB} ${pct(takeB)}`, tip: '每 100 元流水，扣掉优惠与平台佣金后到手的比例', spark: sparkOf(x => x.gross ? x.net / x.gross : 0) }
   ];
 
   const todos = buildTodos();
-  const todoRows = todos.slice(0, 5).map(t => `<div class="todo">
-      <div class="ic" style="background:${t.tone === 'red' ? 'var(--neg-soft)' : t.tone === 'green' ? 'var(--pos-soft)' : t.tone === 'amber' ? 'var(--warn-soft)' : '#F2EEE9'};color:${t.tone === 'red' ? 'var(--neg)' : t.tone === 'green' ? 'var(--pos)' : t.tone === 'amber' ? 'var(--warn)' : 'var(--ink2)'}">${icon(t.icon)}</div>
+  const todoRows = todos.slice(0, 5).map(t => `<div class="todo${t.tone === 'red' ? ' risk' : ''}">
+      <div class="ic" style="background:${t.tone === 'red' ? 'var(--neg-soft)' : t.tone === 'green' ? 'var(--pos-soft)' : t.tone === 'amber' ? 'var(--warn-soft)' : 'var(--inset)'};color:${t.tone === 'red' ? 'var(--neg)' : t.tone === 'green' ? 'var(--pos)' : t.tone === 'amber' ? 'var(--warn)' : 'var(--ink2)'}">${icon(t.icon)}</div>
       <div class="body"><div class="t">${esc(t.title)}<span class="chip ${t.tone === 'red' ? 'red' : t.tone === 'green' ? 'green' : t.tone === 'amber' ? 'amber' : 'gray'}">${t.kind}</span></div>
       <div class="m">${esc(t.meta)}</div></div>
       ${t.amt != null ? `<div class="amt" style="color:${t.amt < 0 ? 'var(--neg)' : 'var(--pos)'}">${sm(t.amt)}</div>` : ''}
@@ -2646,7 +2751,7 @@ function viewWhy() {
         <div class="seg">${dimTabs}</div>
       </div>
       ${top.map(r => arow(r, maxAbs)).join('')}
-      <div class="legend"><span><i style="background:#4FA98D"></i>高于基准</span><span><i style="background:#D9705F"></i>低于基准</span><span>中线＝基准值</span></div>
+      <div class="legend"><span><i style="background:var(--pos)"></i>高于基准</span><span><i style="background:var(--neg)"></i>低于基准</span><span>中线＝基准值</span></div>
       ${state.dim === '渠道' && top[0] && top[0].name === '门店自收' && top[0].share > 0.6
         ? `<div class="note" style="margin-top:12px">门店自收占 <b>${pct(top[0].share)}</b>，它的涨跌基本就是全店的涨跌（${sm(top[0].dNet)}），把这一条当背景看。真正能动的是美团 / 淘宝闪购这几条平台渠道，以及切到「餐段」看哪个时段在掉。</div>` : ''}
       <div style="margin-top:16px;padding-top:11px;border-top:1px solid var(--line2);display:flex;justify-content:space-between;font-size:11.5px;color:var(--ink3)">
@@ -2718,9 +2823,9 @@ function viewStruct() {
   const biz = dimRange('业务', state.a, state.b);
 
   const segs = [
-    { name: '平台佣金', v: mf.comm, color: '#8E2F24' },
-    { name: '商家让利', v: Math.max(0, mf.disc - mf.comm), color: '#E2552B' },
-    { name: '到手', v: mf.net, color: '#4FA98D' }
+    { name: '平台佣金', v: mf.comm, color: '#6B7A94' },
+    { name: '商家让利', v: Math.max(0, mf.disc - mf.comm), color: '#F58700' },
+    { name: '到手', v: mf.net, color: '#2F6BFF' }
   ];
   const total = mf.gross || 1;
   const barSegs = segs.map(x => `<div style="width:${x.v / total * 100}%;background:${x.color};height:100%" title="${x.name} ${money2(x.v)}（${pct(x.v / total)}）"></div>`).join('');
@@ -2744,7 +2849,7 @@ function viewStruct() {
     const g = x.gross, n2 = x.net;
     return `<div class="arow">
       <div class="nm">${esc(x.name)}</div>
-      <div class="track" style="background:#F6F1EC"><div class="fill pos" style="left:0;width:${(n2 / (Math.max(...biz.map(y => y.net)) || 1)) * 100}%;background:#E2552B"></div></div>
+      <div class="track" style="background:#F4F7FC"><div class="fill pos" style="left:0;width:${(n2 / (Math.max(...biz.map(y => y.net)) || 1)) * 100}%;background:var(--brand)"></div></div>
       <div class="amt">${pct(div(n2, g))}</div>
     </div>`;
   }).join('');
@@ -2764,7 +2869,7 @@ function viewStruct() {
   <div class="card pad">
     <h3 style="margin:0 0 3px;font-size:14px;font-weight:600">每 100 元流水，到手多少</h3>
     <p class="hint" style="margin-bottom:13px">${md(state.a)}~${md(state.b)} · 流水 ${money(A.gross)} → 实收 ${money(A.net)}</p>
-    <div style="height:30px;border-radius:9px;overflow:hidden;display:flex;background:#F3EDE7">${barSegs}</div>
+    <div style="height:30px;border-radius:9px;overflow:hidden;display:flex;background:#F4F7FC">${barSegs}</div>
     <div style="display:flex;gap:16px;margin-top:11px;flex-wrap:wrap">
       ${segs.map(x => `<div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink2)">
         <i style="width:9px;height:9px;border-radius:3px;background:${x.color};display:inline-block"></i>
@@ -2816,7 +2921,7 @@ function viewStruct() {
         <td class="r num">${pct(x.take)}</td>
         <td class="r num">${pct(x.takeComm)}</td>
         <td class="r num">${pct(x.wai)}</td>
-        <td><div class="bar-h"><i style="width:${x.ag.net / maxStore * 100}%;background:${x.k === state.store ? 'var(--brand)' : '#D9C7BA'}"></i></div></td>
+        <td><div class="bar-h"><i style="width:${x.ag.net / maxStore * 100}%;background:${x.k === state.store ? 'var(--brand)' : '#C9D5EA'}"></i></div></td>
       </tr>`).join('')}</tbody>
     </table>
   </div>
@@ -3181,11 +3286,12 @@ function renderTop() {
   const v = VIEWS[state.view] || VIEWS.home;
   $('viewTitle').textContent = v.t;
   $('viewSub').textContent = v.s();
-  $('sideFoot').innerHTML = `数据源：${esc(M.source)}<br><b>${nf(M.rows)}</b> 行 · <b>${M.stores.length}</b> 家店<br><span style="color:#7A6459">金额三项对账 0 误差</span><div style="margin-top:9px;padding-top:8px;border-top:1px solid rgba(255,255,255,.08);color:#7A6459;font-size:10.5px;letter-spacing:.02em">${EDITION_NAME} · ${APP_TAG_FULL}</div>`;
+  const srcShort = M.source.length > 20 ? M.source.slice(0, 20) + '…' : M.source;
+  $('sideFoot').innerHTML = `数据源：<span title="${esc(M.source)}" style="color:#C9D6EA">${esc(srcShort)}</span><br><b>${nf(M.rows)}</b> 行 · <b>${M.stores.length}</b> 家店<br><span style="color:#6FDDB0">金额三项对账 0 误差</span><div style="margin-top:9px;padding-top:8px;border-top:1px solid rgba(255,255,255,.1);color:#8A9CC0;font-size:11px;letter-spacing:.02em">${EDITION_NAME} · ${APP_TAG}</div>`;
 }
 /* 示例数据横幅：只在「内置数据 + 未导入」时出现，正式的数据版不会触发 */
 function demoBanner() {
-  return `<div style="display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:14px;padding:12px 15px;border-left:3px solid var(--brand);background:var(--brand-soft);border-radius:9px">
+  return `<div style="display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:14px;padding:12px 15px;border-left:3px solid var(--brand);background:var(--brand-soft);border-radius:var(--r3)">
     <div style="font-size:12.5px;line-height:1.75">
       <b>现在看到的是示例数据。</b>三家虚构门店、一个月，用来说明看板怎么读，金额与店名都不是真的。<br>
       <span style="color:var(--ink2)">导入你自己的收银明细后，这里的每一个数字都会换成你的。</span>
@@ -3199,7 +3305,12 @@ function render() {
   renderNav();
   renderTop();
   const v = VIEWS[state.view] || VIEWS.home;
-  $('content').innerHTML = (M.demo && !M.imported && state.view !== 'data' ? demoBanner() : '') + v.f();
+  const ct = $('content');
+  ct.innerHTML = (M.demo && !M.imported && state.view !== 'data' ? demoBanner() : '') + v.f();
+  /* 切页只做一次 200ms 的淡入上移：先摘掉类再强制回流，保证每次都重新播 */
+  ct.classList.remove('vf');
+  void ct.offsetWidth;
+  ct.classList.add('vf');
 }
 /* 事件委托 */
 document.addEventListener('click', (e) => {
@@ -3342,7 +3453,8 @@ function impStep1(msg) {
       <div class="hint">支持一次选<b>多份</b>（Ctrl / ⌘ 多选）· xlsx / csv / txt · 单份 60MB 以内 · 一份表里可以有多家店、多个月</div>
     </div>
     <div class="note" style="margin-top:12px">多份文件会<b>合并成一份数据</b>：同一天出现在两份里，以<b>后导入的那份</b>为准；完全一样的重复导出会自动去掉，不会把营业额算两遍。</div>
-    ${have ? `<div class="note" style="margin-top:10px;border-left-color:var(--warn)">当前已有 <b>${have}</b> 份导入文件，这次选的会<b>并入</b>，不替换。想清空重来，去「数据」页点「清空全部文件」。</div>` : ''}
+    ${have ? `<div class="note" style="margin-top:10px;border-left-color:var(--warn)">当前已有 <b>${have}</b> 份导入文件。读完表后会让你选<b>完全覆盖</b>还是<b>追加合并</b>。</div>`
+      : `<div class="note" style="margin-top:10px;border-left-color:var(--warn)">看板上现在${M.demo && !M.imported ? '是<b>示例数据</b>（3 家虚构门店）' : `是<b>内置数据</b>（${STORE_KEYS.length} 家门店）`}。导入后这些会被<b>整份替换</b>，不会和你的门店混在一起。</div>`}
     ${msg ? `<div class="note" style="margin-top:10px;border-left-color:var(--neg)">${esc(msg)}</div>` : ''}
     <input type="file" id="fileInput" multiple accept=".xlsx,.xlsm,.csv,.txt,.tsv" style="display:none">
     <div class="note" style="margin-top:14px">表里<b>至少要有营业日期、实收金额、门店名称</b>这三列。另外有订单号、流水金额、客流、渠道、餐段、优惠明细、支付方式的话，就能算到归因和结构那一层。</div>
@@ -3365,7 +3477,13 @@ function impStep1(msg) {
 
 /* ---------- 读文件（逐份，带进度） ---------- */
 async function impLoad(files) {
-  _imp = { items: files.map(f => ({ name: f.name, size: f.size, file: f })), open: -1 };
+  /* 已有导入文件 → 默认「追加」，沿用原来的行为；只有示例/内置数据时 → 默认「覆盖」，
+     因为把虚构门店混进真实经营数据里毫无意义，多数人也会误以为数据没换干净。 */
+  _imp = {
+    items: files.map(f => ({ name: f.name, size: f.size, file: f })),
+    open: -1,
+    mode: FILES.length ? 'append' : 'replace'
+  };
   modalOpen('正在读取', '大表要几秒，别关窗口');
   $('mFoot').innerHTML = `<button class="btn ghost sm" id="impCancel2">取消</button>`;
   $('impCancel2').onclick = modalClose;
@@ -3406,8 +3524,19 @@ function impRecalc() {
     } catch (e) { it.D = null; it.err = (e && e.message) || '汇总失败'; }
   });
   _imp.add = _imp.items.filter(it => it.D).map(it => ({ name: it.name, D: it.D }));
-  _imp.all = FILES.concat(_imp.add);
-  _imp.merged = _imp.add.length ? MG.merge(_imp.all) : (FILES.length ? MG.merge(FILES) : null);
+  applyImpMode();
+}
+
+/* 按当前模式决定「哪些文件参与合并」：
+   replace = 只留这次选的（把旧文件与示例数据一起清掉）
+   append  = 并到已有文件之上（同一天以新文件为准） */
+function applyImpMode() {
+  if (_imp.mode === 'append' && FILES.length) {
+    _imp.all = FILES.concat(_imp.add);
+  } else {
+    _imp.all = _imp.add.slice();
+  }
+  _imp.merged = _imp.all.length ? MG.merge(_imp.all) : null;
 }
 
 const MAP_FIELDS = [
@@ -3463,6 +3592,31 @@ function impStep2Render() {
       </div></div>`;
   };
 
+  /* 现在看板上是什么数据，直接写进选项里，别让用户猜「演示门店会不会留下」 */
+  const cur = (M.demo && !M.imported)
+    ? `示例数据（${STORE_KEYS.length} 家虚构门店）`
+    : `当前看板上的 ${STORE_KEYS.length} 家门店数据`;
+  const hasPrev = FILES.length > 0;
+  const modeCard = `<div class="impmode">
+    <div class="impmode-h">这次导入怎么处理现有数据</div>
+    <label class="${_imp.mode === 'replace' ? 'on' : ''}">
+      <input type="radio" name="impmode" value="replace" ${_imp.mode === 'replace' ? 'checked' : ''}>
+      <div class="impmode-t"><b>完全覆盖</b>
+        <div class="impmode-d">${hasPrev
+      ? `删掉现有的 ${FILES.length} 份导入文件，看板只剩这次的 ${add.length} 份`
+      : `${cur}会被全部清掉，看板只剩这次的 ${add.length} 份`}，不会留下任何旧门店。</div>
+      </div>
+    </label>
+    <label class="${_imp.mode === 'append' ? 'on' : ''}${hasPrev ? '' : ' off'}">
+      <input type="radio" name="impmode" value="append" ${_imp.mode === 'append' ? 'checked' : ''} ${hasPrev ? '' : 'disabled'}>
+      <div class="impmode-t"><b>追加合并</b>
+        <div class="impmode-d">${hasPrev
+      ? `保留现有 ${FILES.length} 份，把这次的并进去（共 ${FILES.length + add.length} 份）。日期重叠时以这次的文件为准。`
+      : '当前没有已导入的文件，只有内置数据，没得追加——这种情况只能用覆盖。'}</div>
+      </div>
+    </label>
+  </div>`;
+
   let mergeLine = '';
   if (rep && D) {
     const bits = [];
@@ -3473,9 +3627,10 @@ function impStep2Render() {
   }
 
   $('mBody').innerHTML = `
+    ${modeCard}
     ${D ? `<div class="finfo">
       <div><div class="k">本次新增</div><div class="v">${add.length} 份</div></div>
-      <div><div class="k">合并后实收</div><div class="v">${money(D.all.total.net)}</div></div>
+      <div><div class="k">${_imp.mode === 'append' && hasPrev ? '合并后实收' : '覆盖后实收'}</div><div class="v">${money(D.all.total.net)}</div></div>
       <div><div class="k">覆盖天数</div><div class="v">${D.meta.days} 天</div></div>
       <div><div class="k">门店</div><div class="v">${D.meta.stores.length} 家</div></div>
     </div>` : `<div class="note" style="border-left-color:var(--neg)">还没有一份能用的文件，下面看哪份缺字段。</div>`}
@@ -3486,7 +3641,9 @@ function impStep2Render() {
       <table class="ftab"><thead><tr><th>文件</th><th class="r c-hide">行数</th><th class="r">实收</th><th>日期范围</th><th class="r c-hide">门店</th><th class="c-hide-sm"></th></tr></thead>
         <tbody>${items.map(fileRow).join('')}</tbody></table>
     </div>
-    ${FILES.length ? `<div class="hint" style="margin-top:8px">已导入、会一起参与合并：${FILES.map(f => esc(f.name)).join('、')}</div>` : ''}
+    ${hasPrev ? `<div class="hint" style="margin-top:8px">${_imp.mode === 'append'
+      ? `已导入、会一起参与合并：${FILES.map(f => esc(f.name)).join('、')}`
+      : `已有、这次会被删掉：${FILES.map(f => esc(f.name)).join('、')}`}</div>` : ''}
     ${mapPanel()}
     ${noData.length ? `<div class="note" style="margin-top:12px;border-left-color:var(--neg)">${noData.map(it => esc(it.name)).join('、')} 现在导入不了，点「去指定」把日期 / 实收 / 门店三列选上。</div>` : ''}
     <div class="hint" style="margin-top:12px">金额三项对账：${D ? `流水 − 优惠 = 实收 ${pct(1 - (D.all.q.gross_net_mismatch || 0) / Math.max(1, D.meta.rows))} 行对得上 · 优惠明细合计对得上 ${pct(1 - (D.all.q.disc_detail_mismatch || 0) / Math.max(1, D.meta.rows))} · 支付明细合计对得上 ${pct(1 - (D.all.q.pay_detail_mismatch || 0) / Math.max(1, D.meta.rows))}` : '—'}</div>`;
@@ -3496,6 +3653,15 @@ function impStep2Render() {
     <button class="btn" id="impGo" ${canGo ? '' : 'disabled'}>合并导入</button>`;
   $('impBack').onclick = () => impStep1('');
   $('impGo').onclick = impApply;
+  $('impGo').textContent = _imp.mode === 'append' && hasPrev ? '合并导入' : '覆盖导入';
+
+  $('mBody').querySelectorAll('input[name="impmode"]').forEach(r => {
+    r.onchange = () => {
+      _imp.mode = r.value;
+      applyImpMode();
+      impStep2Render();
+    };
+  });
 
   $('mBody').querySelectorAll('[data-open]').forEach(b => {
     b.onclick = () => { const i = Number(b.dataset.open); _imp.open = _imp.open === i ? -1 : i; impStep2Render(); };
@@ -3510,23 +3676,27 @@ function impStep2Render() {
   });
 }
 
-/* ---------- 第三步：合并导入 ---------- */
+/* ---------- 第三步：导入（覆盖 / 合并） ---------- */
 function impApply() {
   const add = (_imp && _imp.add) || [];
   if (!add.length) { impStep1('这些文件按现在的字段都对不上，没法合并'); return; }
-  const all = FILES.concat(add);
+  const mode = (_imp.mode === 'append' && FILES.length) ? 'append' : 'replace';
+  const all = mode === 'append' ? FILES.concat(add) : add.slice();
   const mm = MG.merge(all);
   if (!mm || !mm.D.meta.days) { impStep1('合并后一天数据都没有，检查日期列选对没有'); return; }
-  const beforeN = FILES.length;
+  const beforeN = mode === 'append' ? FILES.length : 0;
+  const dropped = mode === 'replace' ? FILES.length : 0;
   applyData(mm.D, all);
   render();
-  impStep3(mm.report, add, beforeN);
+  impStep3(mm.report, add, beforeN, dropped);
 }
 
-function impStep3(rep, add, beforeN) {
+function impStep3(rep, add, beforeN, dropped) {
   const D = DATA;
   const saved = !M.storageFail;
-  modalOpen('导入完成', `已合并 ${FILES.length} 份文件，全站按新数据重算`);
+  modalOpen('导入完成', dropped
+    ? `已用这次的 ${add.length} 份替换全部数据，原有 ${dropped} 份已移除`
+    : `已合并 ${FILES.length} 份文件，全站按新数据重算`);
   const rows = (rep.files || []).map(f => `<tr>
       <td>${esc(f.name)}</td>
       <td>${md(f.date_min)}~${md(f.date_max)}<div class="hint">${f.days} 天</div></td>
@@ -3544,7 +3714,7 @@ function impStep3(rep, add, beforeN) {
         <tbody>${rows}</tbody></table>
     </div>
     <div class="note" style="margin-top:12px">接下来先看<b>经营</b>页最上面那句话。${D.meta.days >= 60 ? '数据跨了两个月以上，区间那一行会多出「按月」按钮，可以直接比月。' : ''}${saved ? '数据已经存在本机浏览器，刷新不丢。' : '<b style="color:var(--warn)">数据太大，没能存进浏览器（刷新会丢），建议按季度拆成几份再导。</b>'}</div>
-    <div class="hint" style="margin-top:10px">这次${beforeN ? `在原有 ${beforeN} 份基础上并入 ${add.length} 份` : `导入了 ${add.length} 份`}。想删掉其中一份，去「数据」页的文件清单。</div>`;
+    <div class="hint" style="margin-top:10px">这次${beforeN ? `在原有 ${beforeN} 份基础上并入 ${add.length} 份` : `导入了 ${add.length} 份`}${dropped ? `，原来的 ${dropped} 份文件已移除（原表还在你电脑上，随时能重导）` : ''}。想删掉其中一份，去「数据」页的文件清单。</div>`;
   $('mFoot').innerHTML = `<button class="btn ghost sm" id="impAgain">再导一份</button>
     <button class="btn" id="impDone">开始看</button>`;
   $('impAgain').onclick = openImport;
